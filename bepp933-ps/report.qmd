@@ -1,0 +1,31 @@
+---
+title: "PS 2"
+author: "Hyoungchul Kim"
+date: today
+format: 
+  html:
+    toc: true
+    number-sections: true
+    keep-html: true
+    code-overflow: wrap
+  pdf:
+    pdf-engine: pdflatex
+    keep-tex: true
+    include-in-header: 
+       text: |
+         \usepackage{fvextra}
+         \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+         \DefineVerbatimEnvironment{OutputCode}{Verbatim}{breaklines,commandchars=\\\{\}}
+---
+
+# Part 1
+
+## a.
+
+## b.
+
+## c.
+
+## d.
+
+# Part 2

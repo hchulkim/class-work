@@ -1,0 +1,34 @@
+---
+title: "Referee report"
+subtitle: "Fragmented markets and the proliferation of small firms: Evidence from mom-and-pop shops in Mexico (Ramos-Menichelli and Sverdlin-Lisker)"
+author: "Hyoungchul Kim"
+date: today
+format: 
+  html:
+    toc: true
+    number-sections: true
+    keep-html: true
+    code-overflow: wrap
+  pdf:
+    pdf-engine: pdflatex
+    keep-tex: true
+    include-in-header: 
+       text: |
+         \usepackage{fvextra}
+         \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+         \DefineVerbatimEnvironment{OutputCode}{Verbatim}{breaklines,commandchars=\\\{\}}
+---
+
+# Letter to the editor
+
+## Summary
+
+## Important points
+
+## Recommendation
+
+# Comments
+
+## Major comments
+
+## Minor comments
