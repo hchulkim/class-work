@@ -20,11 +20,92 @@ format:
 
 # Part 1
 
+First, read in the data
+
+```{r}
+#| warning: false
+library(tidyverse)
+library(data.table)
+
+data <- read_csv("data/middle_kink.csv")
+
+# view the data
+data %>% head()
+```
+
 ## a.
+
+Now we will plot the publication-quality histogram of the earnings distribution:
+
+```{r}
+#| warning: false
+library(ggtext) 
+
+earning_dist <- data %>% 
+  ggplot(aes(x=income_bin, y = n)) +
+  geom_col(fill = "lightblue") +
+  geom_point() +
+  # geom_smooth(method = "lm", se = FALSE, color = "black") +
+  geom_line() +
+  scale_x_continuous(labels = scales::label_number(scale = 0.001, prefix = "$")) +
+  geom_vline(xintercept = 363750, color="red", shape="solid") +
+  # annotate("text", label = "kink", x = 380000, y = 800, size = 5, colour = "black") +
+  labs(title = "**Histogram of the earnings distribution**",
+       x = "**Income Bin (1000s)**", 
+       y = "**Number of Observations**") +
+  theme_bw() + 
+  theme(
+    plot.title = element_markdown(size = 16, hjust = 0.5),
+    axis.title.x = element_markdown(size = 14),
+    axis.title.y = element_markdown(size = 14),
+    axis.text.x = element_text(size = 12),
+    axis.text.y = element_text(size = 12)
+  )
+earning_dist
+```
 
 ## b.
 
 ## c.
+
+```{r}
+#| warning: false
+
+library(bunchr)
+# # analyzing a kink
+# ability_vec <- 4000 * rbeta(100000, 2, 5)
+# earning_vec <- sapply(ability_vec, earning_fun, 0.2, 0, 0.2, 0, 1000)
+# earning_vec
+# # bunch_viewer(earning_vec, 1000, 20, 20, 1, 1, binw = 20)
+# estim <- bunch(earning_vec, 1000, 0, 0.2, Tax = 0, 20, 20, 1, 1,
+# binw = 20, draw=TRUE, nboots = 0, seed = 16)
+# estim$e
+
+# Step 1: Expand binned data into a raw vector
+z_vector <- data %>%
+  rowwise() %>%
+  summarise(vec = list(rep(income_bin, n))) %>%
+  pull(vec) %>%
+  unlist()
+
+# Step 2: Estimate bunching
+estim <- bunch(
+  earnings = z_vector,
+  zstar = 362750,
+  binw = 2500,
+  t1 = 0.21,
+  t2 = 0.28,
+  cf_start = 7,
+  cf_end = 7,
+  exclude_before = 2,
+  exclude_after = 2,
+  poly_size = 2,
+  draw = TRUE
+)
+
+# Estimate of the elasticity from the package
+estim$e
+```
 
 ## d.
 
