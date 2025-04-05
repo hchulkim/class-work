@@ -16,6 +16,7 @@ format:
          \usepackage{fvextra}
          \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
          \DefineVerbatimEnvironment{OutputCode}{Verbatim}{breaklines,commandchars=\\\{\}}
+bibliography: references.bib
 ---
 
 # Part 1
@@ -66,6 +67,65 @@ earning_dist
 
 ## b.
 
+We will be following @saez2010 to construct the equation to retrieve the elasticity $e$. Note for our case, the kink happens as $z^* = 363750$ and marginal tax rate changes from $0.21$ to $0.28$. We need to use equation (5) in the paper to get the elasticity. The equation is as follows:
+
+$$
+  B = z^* \left[ \left( \frac{1-t_0}{1-t_1} \right)^e - 1 \right] \frac{h(z^*)\_ + h(z^*)_+ \bigg/ \left( \frac{1-t_0}{1-t_1} \right)^e}{2}.
+$$
+
+In order to compute $B$, we need to decide $\delta$ to calculate the width we will use to calculate excess bunching. We will use the "simplest method" mentioned in the paper which is to select $\delta$ graphically such that the full excess bunching is included in the band $(z^* - \delta + z^* + \delta)$. In our case, it seems to be about $\delta = 8$ (Note that since out data is in income bin of width 2500, this is equivalent to 20,000 difference). Numerically, it will be calculated as follows (this is just following the equation (6) in the paper):
+
+```{r}
+
+B1  <- data %>% 
+  filter(income_bin >= 342750 & income_bin <= 383650) %>%  # 20,000 differences
+  count(wt=n) %>% 
+  pull() #8,574
+
+B2 <- data %>% 
+  filter(income_bin >= 323750 & income_bin <= 342750) %>% 
+  count(wt=n) %>% 
+  pull() # 3615
+
+B3 <- data %>% 
+  filter(income_bin >= 383750 & income_bin <= 402750) %>% 
+  count(wt=n) %>% 
+  pull() # 2982
+
+B = B1 - B2 - B3
+
+B #1977
+```
+
+Now we also need to compute two $h$ in the main equation. Empirically we can calculate this by dividing B2, B3 by $\delta$ respectively. 
+
+```{r}
+
+h_min = B2 / 20000
+h_plus = B3 / 20000
+
+h_min
+h_plus
+```
+
+Finally, we can plug in the values we got from the data and get the elasticity $e$. Here, we are just basically getting the solution by plugging in the empirical numbers we computed from the data into the main equation:
+
+```{r}
+
+# Define the function whose root we want to find
+f <- function(e) {
+  363750 * (((1-0.21) / (1-0.28))^e - 1) * ( ((h_min + h_plus) / ((1-0.21) / (1-0.28))^e) / 2) - B
+}
+
+# Use uniroot to solve f(e) = 0 in a reasonable range for e
+result <- uniroot(f, lower = -10, upper = 10)
+
+# Extract the solution
+e_solution <- result$root
+print(e_solution)
+
+```
+
 ## c.
 
 ```{r}
@@ -91,7 +151,7 @@ z_vector <- data %>%
 # Step 2: Estimate bunching
 estim <- bunch(
   earnings = z_vector,
-  zstar = 362750,
+  zstar = 363750,
   binw = 2500,
   t1 = 0.21,
   t2 = 0.28,
@@ -109,4 +169,11 @@ estim$e
 
 ## d.
 
+- Different: (1) setting the bunching width, (2) excluding bins, (3) polynomial order.
+
 # Part 2
+
+## References {.unnumbered}
+
+::: {#refs}
+:::
