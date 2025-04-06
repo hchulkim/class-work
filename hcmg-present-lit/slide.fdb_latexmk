@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1743975338 "slide.tex" "slide.pdf" "slide" 1743975338
+["pdflatex"] 1743983104 "slide.tex" "slide.pdf" "slide" 1743983105
   "/etc/texmf/web2c/texmf.cnf" 1733250977 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/lato/a_rt66h3.enc" 1561498483 3345 f5bff336afd6959239b79815a9c623d1 ""
@@ -259,10 +259,17 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1644012257 39432 7155514e09a3d69036fac785183a21c2 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1734907586 4379155 98693266ff65f58d9f98aff394de12d2 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1734907616 2800723 db3fefe23d2a9b9d3493612e77ab5327 ""
-  "slide.aux" 1743975338 3149 cc67d39d261b437275cf5601de2b73c0 "pdflatex"
-  "slide.nav" 1743975338 1760 fe54d4138ba0be3d51ab98762e00407d "pdflatex"
-  "slide.out" 1743975338 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "slide.tex" 1743975337 9877 ee576d3b96ec01fbaa5d07d70d123af6 ""
+  "men1.png" 1743982123 55830 c28cb46f441139b52128d4eb73867c8e ""
+  "men2.png" 1743982123 48033 47bed0ef10ccb003b401a9620d4bcd65 ""
+  "men3.png" 1743982123 45983 d389c8257c8c5a3dc4523cce83d6822b ""
+  "rdd1.png" 1743982123 57190 8a16bf3402ec1338c7e8b3574e1a847e ""
+  "rdd2.png" 1743982123 53894 a497d77c8e8a512ed57d9f0242ed4817 ""
+  "slide.aux" 1743983105 3407 d48688a8c9f9029396237982389ad2de "pdflatex"
+  "slide.nav" 1743983105 1946 1067430081a5afdfe3a47fbf6aa0c4dd "pdflatex"
+  "slide.out" 1743983105 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "slide.tex" 1743983104 10771 a382389df2b73d49b85ba5d9ced3bf6f ""
+  "tab1.png" 1743982123 114900 d446aaaf156b34d83574dacc9f0ea39d ""
+  "tab3.png" 1743982123 91418 c0f9446347c53fe18a76a5b7cfa8ee93 ""
   (generated)
   "slide.aux"
   "slide.log"
