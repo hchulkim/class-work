@@ -8,6 +8,8 @@
 \usepackage{lipsum}
 \usepackage{multimedia}
 \usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
 \usepackage{multirow}
 \usepackage{graphicx}
 \usepackage{changepage}
@@ -87,24 +89,166 @@
 \setcounter{framenumber}{0}
 
 \begin{frame}{Motivation}
-	lorem ipsum.
+	\begin{wideitemize}
+		\item One in six individuals worldwide are affected by infertility (WHO).
+		\item Since 1980s, the technology of assisted reproduction (ART) has experience dramatic advances.
+		\item There are many ethical, demographic, and economic policy debates around infertility treatment worldwide.
+		\item In Economics perspective: Necessity for subsidization, Private and public costs of infertility burden, infertility burden's impact on households.
+		\item[\textcolor{red}{$\Rightarrow$}] \textcolor{red}{Remarkable variation in policy and the intense public debate highlight the need for more evidence on this matter.}
+	\end{wideitemize}
+
 \end{frame}
 
 \begin{frame}{Research question}
-	
+	\begin{enumerate}
+		\item Empirically analyze the infertility burden on women (mental health, etc).
+		\item Impact of public policies (insurance) on affordability of infertility treatment.
+		\item Private and public costs of infertility burden \textcolor{gray}{(We will not talk too much about this due to time constraint).}
+	\end{enumerate}	
 \end{frame}
 
-\begin{frame}{Preview of results}
-	
+\begin{frame}{Brief terminology and backgrounds}
+	\begin{wideitemize}
+		\item ART: Assisted Reproductive Technologies.
+		\item LIT: Low-Intensity Treatment (prescriptive medication, in-utero insemination).
+		\item IVF: In Vitro Fertilization (high intensity treatments), that includes strong ovulatory stimulation, egg retrieval procedure, etc.
+		\item MKT price of a single cycle of IVF in Sweden in 2010: \$3,250 in 2022 USD.
+		\item Out-of-pocket price for IVF with health insurance coverage: \$327 in 2022 USD.
+	\end{wideitemize}
+\end{frame}
+
+\begin{frame}{Summary of results I will not have time to talk about}
+	\begin{wideitemize}
+	\item \textbf{Willingness to pay}
+		\begin{wideitemize}
+		\item Maximum willingness to pay for a 40\% change of having a child: \$16,741 (four monthly incomes).
+		\end{wideitemize}
+	\item \textbf{Potential role of liquidity}: Understanding the degree to which IVF insurance coverage provides consumption smoothing benefits for liquidity-constrained households.
+	\item \textbf{Normative analysis}: Calculating some Marginal value of public funds (MVPF) for distributional concerns.
+	\end{wideitemize}	
+\end{frame}
+
+\begin{frame}{Infertility Treatment Timeline}
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    timeline/.style={
+        draw, rounded corners, fill=blue!10, minimum height=1.2cm, text width=3.5cm, align=center
+    },
+    arrow/.style={-{Stealth}, thick},
+    node distance=1.5cm and 2.8cm
+]
+
+% Nodes
+\node[timeline] (eval) {\textbf{Infertility Evaluation}\\ \small (After trying for 1+ year)};
+\node[timeline, right=of eval] (lit) {\textbf{LIT}\\ \small e.g., prescription,\\ in-utero insemination};
+\node[timeline, right=of lit] (ivf) {\textbf{IVF}\\ \small e.g., egg retrieval,\\ strong ovulatory stimulation};
+
+% Arrows
+\draw[arrow] (eval) -- (lit);
+\draw[arrow] (lit) -- (ivf);
+
+\end{tikzpicture}%
+}
 \end{frame}
 
 \begin{frame}{Data}
-	
+\begin{wideitemize}
+\item \textbf{Swedish Population Register \& Statistics Sweden's longitudinal database}
+	\begin{itemize}
+		\item Individual level data with demographic and socioeconomic information, linked to their spouses (+ cohabiting partners).	
+	\end{itemize}
+\item \textbf{National Board of Health and Welfare}
+	\begin{itemize}
+		\item Link individual's all purchases of prescription drugs (name, classification code).
+		\item University of inpatient hospital visits and specialist outpatient visits (date of visit, diagnosis codes).
+		\item Universe of birth records (live, still, due date, gestational age at birth, resulted from a medically assisted conception).
+	\end{itemize}
+\end{wideitemize}	
 \end{frame}
 
-\begin{frame}{Empirical specification}
-	
+\begin{frame}{Sum stat: Final sample}
+	tab 1
 \end{frame}
 
+\begin{frame}
+	\begin{center}
+		\huge{The consequences of persistent infertility}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Empirical specification: Impact of persistent infertility}
+	\vspace{1em}
+	The paper first employs DiD-ish specification to estimate the impact of persistent infertility.
+	\vspace{1em}
+	\begin{block}{\textbf{Setup}}
+		\begin{enumerate}
+			\item \textbf{Sample}: Women who initiate any ART and conceive within 3 years of initiation.
+			\item \textbf{Variation}: \textbf{(i)} women whose first conception after ART initiation resulted in a live birth and \textbf{(ii)} women whose first conception resulted in a miscarriage or stillbirth (``failed'').
+			\item \textbf{Identification assumption}: Women whose first conception succeeds vs women whose first conception fails would have evolved over time in the counterfactual scenario.
+		\end{enumerate}	
+	\end{block}
+	\begin{align*}
+		\overbrace{Y_{it}}^{\hidewidth \text{Individual-level outcome} \hidewidth} = \alpha_i + \sum_{\tau} \kappa_{\tau} \underbrace{D_{\tau, it}}_{\hidewidth \text{FE: relative time} \hidewidth} + \sum_{\tau} \textcolor{red}{\sigma_{\tau}} D_{\tau,it} * Failed_i + \gamma_t + \beta * X_{it} + \varepsilon_{it}.
+	\end{align*}
+
+	\begin{itemize}
+		\item $\gamma$: Time relative to the quarter (or year) of conception.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Results: Figures}
+fig 4
+
+\end{frame}
+
+\begin{frame}{Results: Summary}
+\begin{wideitemize}
+	\item Persistent infertility is bad for women's mental health.
+	\item Persistent infertility has no ``protective'' long-run effect on women's income.
+	\item \textcolor{red}{This is relative comparison between women who revealed their preference for having a child.} We are saying nothing about women who does not want to have a child having infertility.
+	\item Persistent infertility leads to higher rates of divorce (\textcolor{red}{``child''-oriented family?}).
+	\item ``Wanting to have a child'' might be the key here.
+
+\end{wideitemize}	
+\end{frame}
+
+\begin{frame}
+	\begin{center}
+		\huge{Demand for infertility treatment}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Empirical specification: Impact of insurance coverage}
+	The paper employ RDD to estimate the impact of insurance coverage on IVF initiation.\vspace{1em}
+
+	\begin{block}{\textbf{Setup}}
+		\begin{enumerate}
+			\item \textbf{Sample}: Women-year-month panel around the age cut-off (2 yrs) for insurance coverage (as-if-random treatment).	
+			\item \textbf{Running variable}: Regional age cut-off for insurance coverage.
+			\item \textbf{Identifying assumption}: Age-based eligibility change is forseeable, but patients cannot perfectly control the timing of their treatment around the age cutoff (Really?).
+		\end{enumerate}
+	
+	\end{block}
+
+	\begin{align}
+		\underbrace{Y_{itc}}_{\hidewidth \text{\hspace{3em} Initiating IVF treatment} \hidewidth} = \beta_0 + \textcolor{red}{\beta_1}\mathbb{1} [ a_{it} > \overbrace{A_{ct}}^{\hidewidth \text{Age cutoff} \hidewidth} ] + \beta_2 (a_{it} - A_{ct}) + \beta_3 \mathbb{1} [a_{it} > A_{ct}] \times (a_{it} - A_{ct}) + x'_{itc} \kappa + \varepsilon_{itc}\nonumber
+	\end{align}
+\end{frame}
+
+\begin{frame}{Graphical evidence}
+	fig 6	
+\end{frame}
+
+\begin{frame}{Formal RDD estimates}
+table 3	
+\end{frame}
+
+\begin{frame}{Results: Summary}
+\begin{wideitemize}
+\item As women age out of insurance coverage, their rate of IVF initiation drops by 51\%. 
+
+\end{wideitemize}	
+\end{frame}
 
 \end{document}
