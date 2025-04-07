@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1743739712 "slide.tex" "slide.pdf" "slide" 1743739712
+["pdflatex"] 1744056001 "slide.tex" "slide.pdf" "slide" 1744056001
   "/etc/texmf/web2c/texmf.cnf" 1733250977 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/lato/a_vc7epu.enc" 1561498483 2837 71470f4f1f9e810bb7f97954be46f052 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/lato/a_y72t7m.enc" 1561498483 2827 edb6577ce87a761a903cb37772e591dd ""
@@ -191,10 +191,10 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1644012257 39432 7155514e09a3d69036fac785183a21c2 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1734907586 4379155 98693266ff65f58d9f98aff394de12d2 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1734907616 2800723 db3fefe23d2a9b9d3493612e77ab5327 ""
-  "slide.aux" 1743739712 1243 eb485cca07efa3f4e18672cb49315010 "pdflatex"
-  "slide.nav" 1743739712 395 756c0cd43ad72dd6c981ba0ddaf29d5f "pdflatex"
-  "slide.out" 1743739712 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "slide.tex" 1743739710 2740 fdde7a0417ae5772024fbdcc34cd8938 ""
+  "slide.aux" 1744056001 2375 f5e9b40c2a725266ddb56aac9d41d456 "pdflatex"
+  "slide.nav" 1744056001 1202 1d50c3857c7a64ab3c9b4eb4b26f9a97 "pdflatex"
+  "slide.out" 1744056001 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "slide.tex" 1744056000 3148 dda5b2fd52467eb12a56ed69af35a183 ""
   (generated)
   "slide.aux"
   "slide.log"

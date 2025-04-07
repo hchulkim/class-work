@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.12.22)  4 APR 2025 00:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.12.22)  7 APR 2025 16:00
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -750,6 +750,24 @@ LaTeX Font Info:    Font shape `OT1/lato-TLF/m/n' will be
 (Font)              scaled to size 4.0pt on input line 91.
  [2
 
+] [3
+
+] [4
+
+] [5
+
+] [6
+
+] [7
+
+] [8
+
+] [9
+
+] [10
+
+] [11
+
 ]
 \tf@nav=\write6
 \openout6 = `slide.nav'.
@@ -765,18 +783,18 @@ Package rerunfilecheck Info: File `slide.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 22682 strings out of 478287
- 442698 string characters out of 5849288
- 777953 words of memory out of 5000000
- 40395 multiletter control sequences out of 15000+600000
+ 22718 strings out of 478287
+ 442999 string characters out of 5849288
+ 777957 words of memory out of 5000000
+ 40413 multiletter control sequences out of 15000+600000
  494375 words of font info for 40 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,13n,122p,403b,413s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/lato/a_vc7epu.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/lato/a_y72t7m.enc}</usr/share/texlive/texmf-dist/fonts/type1/typoland/lato/Lato-Italic.pfb></usr/share/texlive/texmf-dist/fonts/type1/typoland/lato/Lato-Regular.pfb>
-Output written on slide.pdf (2 pages, 41304 bytes).
+Output written on slide.pdf (11 pages, 52911 bytes).
 PDF statistics:
- 41 PDF objects out of 1000 (max. 8388607)
- 25 compressed objects within 1 object stream
- 5 named destinations out of 1000 (max. 500000)
+ 92 PDF objects out of 1000 (max. 8388607)
+ 67 compressed objects within 1 object stream
+ 23 named destinations out of 1000 (max. 500000)
  47 words of extra memory for PDF output out of 10000 (max. 10000000)
 
