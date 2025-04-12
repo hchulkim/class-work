@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Hyoungchul Kim">
-<meta name="dcterms.date" content="2025-04-06">
+<meta name="dcterms.date" content="2025-04-07">
 
 <title>PS 2</title>
 <style>
@@ -142,7 +142,7 @@ window.Quarto = {
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="report.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="../report.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
 </div>
 <main class="content" id="quarto-document-content">
 
@@ -165,7 +165,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 6, 2025</p>
+      <p class="date">April 7, 2025</p>
     </div>
   </div>
   
@@ -244,47 +244,49 @@ window.Quarto = {
 \]</span></p>
 <p>In order to compute <span class="math inline">\(B\)</span>, we need to decide <span class="math inline">\(\delta\)</span> to calculate the width we will use to calculate excess bunching. We will use the “simplest method” mentioned in the paper which is to select <span class="math inline">\(\delta\)</span> graphically such that the full excess bunching is included in the band <span class="math inline">\((z^* - \delta + z^* + \delta)\)</span>. In our case, it seems to be about <span class="math inline">\(\delta = 8\)</span> (Note that since out data is in income bin of width 2500, this is equivalent to 20,000 difference). Numerically, it will be calculated as follows (this is just following the equation (6) in the paper):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>B1  <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income_bin <span class="sc">&gt;=</span> <span class="dv">342750</span> <span class="sc">&amp;</span> income_bin <span class="sc">&lt;=</span> <span class="dv">383650</span>) <span class="sc">%&gt;%</span>  <span class="co"># 20,000 differences</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>() <span class="co">#8,574</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>B2 <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income_bin <span class="sc">&gt;=</span> <span class="dv">323750</span> <span class="sc">&amp;</span> income_bin <span class="sc">&lt;=</span> <span class="dv">342750</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>() <span class="co"># 3615</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>B3 <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income_bin <span class="sc">&gt;=</span> <span class="dv">383750</span> <span class="sc">&amp;</span> income_bin <span class="sc">&lt;=</span> <span class="dv">402750</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>() <span class="co"># 2982</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>B <span class="ot">=</span> B1 <span class="sc">-</span> B2 <span class="sc">-</span> B3</span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> <span class="fu">pull</span>()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>B1  <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income_bin <span class="sc">&gt;=</span> <span class="dv">342750</span> <span class="sc">&amp;</span> income_bin <span class="sc">&lt;=</span> <span class="dv">383650</span>) <span class="sc">%&gt;%</span>  <span class="co"># 20,000 differences</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>() <span class="co">#8,574</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>B2 <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income_bin <span class="sc">&gt;=</span> <span class="dv">323750</span> <span class="sc">&amp;</span> income_bin <span class="sc">&lt;=</span> <span class="dv">342750</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>() <span class="co"># 3615</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>B3 <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income_bin <span class="sc">&gt;=</span> <span class="dv">383750</span> <span class="sc">&amp;</span> income_bin <span class="sc">&lt;=</span> <span class="dv">402750</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>() <span class="co"># 2982</span></span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>B <span class="co">#1977</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>B <span class="ot">=</span> (B1<span class="sc">/</span>A) <span class="sc">-</span> (B2<span class="sc">/</span>A) <span class="sc">-</span> (B3<span class="sc">/</span>A)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>B <span class="co">#1977</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1977</code></pre>
+<pre><code>[1] 0.02838234</code></pre>
 </div>
 </div>
 <p>Now we also need to compute two <span class="math inline">\(h\)</span> in the main equation. Empirically we can calculate this by dividing B2, B3 by <span class="math inline">\(\delta\)</span> respectively.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>h_min <span class="ot">=</span> B2 <span class="sc">/</span> <span class="dv">20000</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>h_plus <span class="ot">=</span> B3 <span class="sc">/</span> <span class="dv">20000</span></span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>h_min <span class="ot">=</span> (B2<span class="sc">/</span>A) <span class="sc">/</span> <span class="dv">20000</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>h_plus <span class="ot">=</span> (B3<span class="sc">/</span>A) <span class="sc">/</span> <span class="dv">20000</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>h_min</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.18075</code></pre>
+<pre><code>[1] 2.594895e-06</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>h_plus</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1491</code></pre>
+<pre><code>[1] 2.140519e-06</code></pre>
 </div>
 </div>
 <p>Finally, we can plug in the values we got from the data and get the elasticity <span class="math inline">\(e\)</span>. Here, we are just basically getting the solution by plugging in the empirical numbers we computed from the data into the main equation:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the function whose root we want to find</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(e) {</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">363750</span> <span class="sc">*</span> (((<span class="dv">1</span><span class="fl">-0.21</span>) <span class="sc">/</span> (<span class="dv">1</span><span class="fl">-0.28</span>))<span class="sc">^</span>e <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> ( ((h_min <span class="sc">+</span> h_plus) <span class="sc">/</span> ((<span class="dv">1</span><span class="fl">-0.21</span>) <span class="sc">/</span> (<span class="dv">1</span><span class="fl">-0.28</span>))<span class="sc">^</span>e) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">-</span> B</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">363750</span> <span class="sc">*</span> (((<span class="dv">1</span><span class="fl">-0.21</span>) <span class="sc">/</span> (<span class="dv">1</span><span class="fl">-0.28</span>))<span class="sc">^</span>e <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> ( (h_min <span class="sc">+</span> (h_plus <span class="sc">/</span> ((<span class="dv">1</span><span class="fl">-0.21</span>) <span class="sc">/</span> (<span class="dv">1</span><span class="fl">-0.28</span>))<span class="sc">^</span>e)) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">-</span> B</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Use uniroot to solve f(e) = 0 in a reasonable range for e</span></span>
@@ -294,7 +296,7 @@ window.Quarto = {
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>e_solution <span class="ot">&lt;-</span> result<span class="sc">$</span>root</span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(e_solution)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.361171</code></pre>
+<pre><code>[1] 0.3545613</code></pre>
 </div>
 </div>
 </section>

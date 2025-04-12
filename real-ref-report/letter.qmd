@@ -1,0 +1,50 @@
+---
+title: "Cover letter"
+subtitle: "Re: Fragmented markets and the proliferation of small firms: Evidence from mom-and-pop shops in Mexico (Ramos-Menichelli and Sverdlin-Lisker)"
+author:
+    name: Hyoungchul Kim
+    affiliation:
+      department: The Wharton School, University of Pennsylvania
+      address:
+        street: 3733 Spruce Street
+        city: Philadelphia
+        state: PA
+        postal-code: 19104
+date: today
+format: 
+  html:
+    toc: true
+    number-sections: true
+    keep-html: true
+    code-overflow: wrap
+  pdf:
+    pdf-engine: pdflatex
+    keep-tex: true
+    include-in-header: 
+       text: |
+         \usepackage{fvextra}
+         \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+         \DefineVerbatimEnvironment{OutputCode}{Verbatim}{breaklines,commandchars=\\\{\}}
+---
+
+Dear Professor Harari, 
+
+Enclosed please find my report on the paper "Fragmented markets and the proliferation of small firms: Evidence from mom-and-pop shops in Mexico" by Ramos-Menichelli and Sverdlin-Lisker.
+
+Best,
+Hyoungchul
+
+## Summary
+
+This paper studies the proliferation of small firms in developing countries by focusing on Mexico’s traditional retail sector. The authors develop a spatial model in which high consumer transport costs lead to fragmented markets, reducing effective market size and encouraging entry by small, low-quality firms, particularly when entry costs are low. The model generates clear comparative statics and motivates an empirical analysis that uses the 2017 deregulation of Mexico’s gasoline market as a source of exogenous variation in transport costs.
+
+Combining this policy shock with a novel panel of firm-level data covering the universe of mom-and-pop shops in Mexico, the authors show that areas facing higher gas price increases experienced a rise in the number of stores, a decline in average store size, and a fall in average store quality. The paper then uses the estimated model to evaluate the welfare consequences of a licensing policy that increases entry costs, and finds modest welfare gains from reducing firm entry.
+
+## Important points
+
+While I believe the paper is already in high-quality, I wrote down some major comments in the referee report to further develop the paper. It mainly talks about some concerns on assumption of the model and request for elaboration of the institutional settings in developing cities. If these comments are fully addressed, I strongly believe the paper's quality will be sufficient to be published in the journal.
+
+## Recommendation
+
+This is a high-quality paper with a compelling theoretical framework, rich data, and a thoughtful empirical strategy. Thus I would recommed a revision. I believe comments in the referee report will further strengthen an already strong and policy-relevant paper.
+

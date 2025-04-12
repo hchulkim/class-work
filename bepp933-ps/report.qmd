@@ -77,6 +77,8 @@ In order to compute $B$, we need to decide $\delta$ to calculate the width we wi
 
 ```{r}
 
+A <- data %>% count(wt=n) %>% pull()
+
 B1  <- data %>% 
   filter(income_bin >= 342750 & income_bin <= 383650) %>%  # 20,000 differences
   count(wt=n) %>% 
@@ -92,7 +94,7 @@ B3 <- data %>%
   count(wt=n) %>% 
   pull() # 2982
 
-B = B1 - B2 - B3
+B = (B1/A) - (B2/A) - (B3/A)
 
 B #1977
 ```
@@ -101,8 +103,8 @@ Now we also need to compute two $h$ in the main equation. Empirically we can cal
 
 ```{r}
 
-h_min = B2 / 20000
-h_plus = B3 / 20000
+h_min = (B2/A) / 20000
+h_plus = (B3/A) / 20000
 
 h_min
 h_plus
@@ -114,7 +116,7 @@ Finally, we can plug in the values we got from the data and get the elasticity $
 
 # Define the function whose root we want to find
 f <- function(e) {
-  363750 * (((1-0.21) / (1-0.28))^e - 1) * ( ((h_min + h_plus) / ((1-0.21) / (1-0.28))^e) / 2) - B
+  363750 * (((1-0.21) / (1-0.28))^e - 1) * ( (h_min + (h_plus / ((1-0.21) / (1-0.28))^e)) / 2) - B
 }
 
 # Use uniroot to solve f(e) = 0 in a reasonable range for e

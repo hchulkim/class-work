@@ -19,16 +19,42 @@ format:
          \DefineVerbatimEnvironment{OutputCode}{Verbatim}{breaklines,commandchars=\\\{\}}
 ---
 
-# Letter to the editor
-
 ## Summary
 
-## Important points
+This paper studies the proliferation of small firms in developing countries by focusing on Mexico’s traditional retail sector. The authors develop a spatial model in which high consumer transport costs lead to fragmented markets, reducing effective market size and encouraging entry by small, low-quality firms, particularly when entry costs are low. The model generates clear comparative statics and motivates an empirical analysis that uses the 2017 deregulation of Mexico’s gasoline market as a source of exogenous variation in transport costs.
 
-## Recommendation
+Combining this policy shock with a novel panel of firm-level data covering the universe of mom-and-pop shops in Mexico, the authors show that areas facing higher gas price increases experienced a rise in the number of stores, a decline in average store size, and a fall in average store quality. The paper then uses the estimated model to evaluate the welfare consequences of a licensing policy that increases entry costs, and finds modest welfare gains from reducing firm entry.
+
+The paper makes several important contributions:
+
+- It presents a clear and tractable spatial model that incorporates firm heterogeneity and consumer mobility, offering a new perspective on market fragmentation in developing economies.
+
+- The empirical strategy leverages a high-frequency, spatially detailed dataset that captures informal firms typically missed in administrative data, and exploits a credible source of exogenous variation.
+
+- The paper adds to a growing literature emphasizing the role of demand-side frictions in shaping firm dynamics and market structure.
+
+- Finally, it provides policy-relevant insights by evaluating the trade-offs of a licensing policy that reduces excessive entry.
 
 # Comments
 
 ## Major comments
 
+- Even though the author talks about this matter, it would still be nice if the author could elaborate bit more on the importance of transportation cost on market segmentation in developing countries compared to developed countries. My prior on people's consumption behavior is that people usually shop necessity goods near their residence (walkable distance). In that sense, I am not quite sure how transportation cost would significantly segment the market. I am thinking this is mostly due to the differences in the economic environment in developing cities. Thus it would be nice for the paper to talk more about this.
+
+- As author mentioned that consumers and firms might have anticipated the energy reform policy, it might be nice to vary the treatment timing to check that the results do not change much. For example, it might be good to set the timing to previous dates if the news about the policy arrived before the actual implementation of the policy. If the author believe that there would not have been such anticipation effect, anecdotal evidence would also suffice.
+
+- The model treats supermarket behavior and location as fixed. While this may be reasonable over a short horizon, some discussion of longer-run dynamics or potential general equilibrium effects (e.g., how upstream suppliers or supermarkets might respond) would be useful.
+
+- The authors argue that the findings are relevant to other developing countries. A short discussion of where this framework is most likely to apply (e.g., settings with similarly low entry costs and poor transport infrastructure) would strengthen the broader relevance of the results.
+
 ## Minor comments
+
+- It might be better to use poisson regression when analyzing impact of transportation cost on firm opening and closings because arbitrary log transformation of inverst hyperbolic sine transformation are not recommended in the current literature.
+
+- For figure 5, it might be better to plot it in histogram which would make it more consistent with figure 3 which also plot by income decile.
+
+- For figure 6, it might be better to later use gradient color scheme rather than different colors (blue, yellow, red) to distinguish them in case of black and white format.
+
+- For figure 14 and 16, it might be better to zoom in on the values and the confidence intervals because currently it is taking too small space in the y range, making it visually harder to interpret.
+
+- The literature review is broad and well-integrated, but it could more clearly position this paper in contrast to closely related work (e.g., Jensen and Miller (2018); You 2021).
