@@ -10,7 +10,7 @@ author:
         city: Philadelphia
         state: PA
         postal-code: 19104
-date: today
+date: April 18, 2025
 format: 
   html:
     toc: true
