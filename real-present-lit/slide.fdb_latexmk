@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1744387416 "slide.tex" "slide.pdf" "slide" 1744387416
+["pdflatex"] 1744434871 "slide.tex" "slide.pdf" "slide" 1744434871
   "/etc/texmf/web2c/texmf.cnf" 1733250977 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/lato/a_vc7epu.enc" 1561498483 2837 71470f4f1f9e810bb7f97954be46f052 ""
@@ -242,10 +242,10 @@
   "expansion.png" 1744249274 299049 4c4aecc4997f973504c51bbb153eac2e ""
   "optimal-fig.png" 1744249274 304742 567b54fae89f31d3af9701755742b808 ""
   "ridership.png" 1744249274 135049 b4dc21cb58870d9d742743b2ff9eb98a ""
-  "slide.aux" 1744387249 3407 d48688a8c9f9029396237982389ad2de "pdflatex"
-  "slide.nav" 1744387249 1946 1067430081a5afdfe3a47fbf6aa0c4dd "pdflatex"
-  "slide.out" 1744387249 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "slide.tex" 1744387415 14050 76583258e3aaf466ecbd93c71efc9c19 ""
+  "slide.aux" 1744387416 3407 d48688a8c9f9029396237982389ad2de "pdflatex"
+  "slide.nav" 1744387416 1946 1067430081a5afdfe3a47fbf6aa0c4dd "pdflatex"
+  "slide.out" 1744387416 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "slide.tex" 1744434869 14051 4fd0a79728f11aa3b6f68b0103dfdd80 ""
   (generated)
   "slide.aux"
   "slide.log"
