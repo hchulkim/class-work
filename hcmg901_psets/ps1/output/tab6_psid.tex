@@ -1,0 +1,35 @@
+\begin{table}[tbp] \centering
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+\caption{Replication of Dehejia and Wahba Table 3}
+\begin{tabularx}{\linewidth}{@{}lCCCCC@{}}
+
+\toprule
+{Control Sample}&{Obs}&{Mean Propensity Score}&{Treatment Effect (Diff. in Means)}&{Regression Treatment Effect}&{Q8: Simple OLS} \tabularnewline
+\midrule \addlinespace[\belowrulesep]
+NSW&185&0.65&1,794&1,676& \tabularnewline
+&&&(675)&(685)& \tabularnewline
+Full PSID&2,490&0.03&--15,205&752& \tabularnewline
+&&(0.02)&(679)&(770)& \tabularnewline
+W/o Replacement: Random&185&0.29&--53&1,045&1,045 \tabularnewline
+&&(0.03)&(708)&(822)&(856) \tabularnewline
+W/o Replacement: Low to High&185&0.29&--53&1,045&1,045 \tabularnewline
+&&(0.03)&(739)&(914)&(856) \tabularnewline
+W/o Replacement: High to Low&185&0.29&--53&1,045&1,045 \tabularnewline
+&&(0.03)&(790)&(788)&(856) \tabularnewline
+With Replacement: Nearest Neighbor&63&0.65&879&1,173&--201 \tabularnewline
+&&(0.03)&(868)&(755)&(1,137) \tabularnewline
+With Replacement: Caliper = 0.00001&9&0.59&751&400&222 \tabularnewline
+&&(0.13)&(3,400)&(2,535)&(2,655) \tabularnewline
+With Replacement: Caliper = 0.00005&18&0.48&--524&--1,643&--2,760 \tabularnewline
+&&(0.10)&(2,802)&(2,531)&(2,472) \tabularnewline
+With Replacement: Caliper = 0.0001&20&0.46&174&--793&--1,684 \tabularnewline
+&&(0.10)&(2,240)&(1,789)&(2,355) \tabularnewline
+With Replacement: Caliper = 0.001&41&0.51&200&33&--728 \tabularnewline
+&&(0.06)&(1,224)&(1,248)&(1,444) \tabularnewline
+\bottomrule 
+
+\end{tabularx}
+\end{table}
