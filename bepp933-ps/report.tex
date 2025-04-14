@@ -230,7 +230,7 @@
 
 \title{PS 2}
 \author{Hyoungchul Kim}
-\date{2025-04-06}
+\date{2025-04-14}
 
 \begin{document}
 \maketitle
@@ -316,36 +316,112 @@ width we will use to calculate excess bunching. We will use the
 ``simplest method'' mentioned in the paper which is to select \(\delta\)
 graphically such that the full excess bunching is included in the band
 \((z^* - \delta + z^* + \delta)\). In our case, it seems to be about
-\(\delta = 8\) (Note that since out data is in income bin of width 2500,
-this is equivalent to 20,000 difference). Numerically, it will be
+\(\delta = 10\) (Note that since out data is in income bin of width
+2,500, this is equivalent to 25,000 difference). Numerically, it will be
 calculated as follows (this is just following the equation (6) in the
 paper):
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\NormalTok{A }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{count}\NormalTok{(}\AttributeTok{wt=}\NormalTok{n) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{pull}\NormalTok{()}
+\NormalTok{A}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 69656
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{b }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(delta) \{}
+
 \NormalTok{B1  }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{filter}\NormalTok{(income\_bin }\SpecialCharTok{\textgreater{}=} \DecValTok{342750} \SpecialCharTok{\&}\NormalTok{ income\_bin }\SpecialCharTok{\textless{}=} \DecValTok{383650}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}  \CommentTok{\# 20,000 differences}
+  \FunctionTok{filter}\NormalTok{(income\_bin }\SpecialCharTok{\textgreater{}=} \DecValTok{365000} \SpecialCharTok{{-}} \DecValTok{2500}\SpecialCharTok{*}\NormalTok{delta }\SpecialCharTok{\&}\NormalTok{ income\_bin }\SpecialCharTok{\textless{}=} \DecValTok{365000} \SpecialCharTok{+} \DecValTok{2500}\SpecialCharTok{*}\NormalTok{delta) }\SpecialCharTok{\%\textgreater{}\%}  \CommentTok{\# 25,000 differences}
   \FunctionTok{count}\NormalTok{(}\AttributeTok{wt=}\NormalTok{n) }\SpecialCharTok{\%\textgreater{}\%} 
   \FunctionTok{pull}\NormalTok{() }\CommentTok{\#8,574}
 
 \NormalTok{B2 }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{filter}\NormalTok{(income\_bin }\SpecialCharTok{\textgreater{}=} \DecValTok{323750} \SpecialCharTok{\&}\NormalTok{ income\_bin }\SpecialCharTok{\textless{}=} \DecValTok{342750}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(income\_bin }\SpecialCharTok{\textgreater{}=} \DecValTok{365000} \SpecialCharTok{{-}} \DecValTok{2500}\SpecialCharTok{*}\DecValTok{2}\SpecialCharTok{*}\NormalTok{delta }\SpecialCharTok{\&}\NormalTok{ income\_bin }\SpecialCharTok{\textless{}=} \DecValTok{365000} \SpecialCharTok{{-}} \DecValTok{2500}\SpecialCharTok{*}\NormalTok{delta) }\SpecialCharTok{\%\textgreater{}\%} 
   \FunctionTok{count}\NormalTok{(}\AttributeTok{wt=}\NormalTok{n) }\SpecialCharTok{\%\textgreater{}\%} 
   \FunctionTok{pull}\NormalTok{() }\CommentTok{\# 3615}
 
 \NormalTok{B3 }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{filter}\NormalTok{(income\_bin }\SpecialCharTok{\textgreater{}=} \DecValTok{383750} \SpecialCharTok{\&}\NormalTok{ income\_bin }\SpecialCharTok{\textless{}=} \DecValTok{402750}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(income\_bin }\SpecialCharTok{\textgreater{}=} \DecValTok{365000} \SpecialCharTok{+} \DecValTok{2500}\SpecialCharTok{*}\NormalTok{delta }\SpecialCharTok{\&}\NormalTok{ income\_bin }\SpecialCharTok{\textless{}=} \DecValTok{365000} \SpecialCharTok{+} \DecValTok{2500}\SpecialCharTok{*}\DecValTok{2}\SpecialCharTok{*}\NormalTok{delta) }\SpecialCharTok{\%\textgreater{}\%} 
   \FunctionTok{count}\NormalTok{(}\AttributeTok{wt=}\NormalTok{n) }\SpecialCharTok{\%\textgreater{}\%} 
   \FunctionTok{pull}\NormalTok{() }\CommentTok{\# 2982}
 
-\NormalTok{B }\OtherTok{=}\NormalTok{ B1 }\SpecialCharTok{{-}}\NormalTok{ B2 }\SpecialCharTok{{-}}\NormalTok{ B3}
+\NormalTok{B }\OtherTok{=}\NormalTok{ (B1 }\SpecialCharTok{{-}}\NormalTok{ B2 }\SpecialCharTok{{-}}\NormalTok{ B3) }\SpecialCharTok{/}\NormalTok{ A}
+
+\NormalTok{\}}
+
+\NormalTok{b1 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(delta) \{}
+
+\NormalTok{B1  }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(income\_bin }\SpecialCharTok{\textgreater{}=} \DecValTok{365000} \SpecialCharTok{{-}} \DecValTok{2500}\SpecialCharTok{*}\NormalTok{delta }\SpecialCharTok{\&}\NormalTok{ income\_bin }\SpecialCharTok{\textless{}=} \DecValTok{365000} \SpecialCharTok{+} \DecValTok{2500}\SpecialCharTok{*}\NormalTok{delta) }\SpecialCharTok{\%\textgreater{}\%}  \CommentTok{\# 25,000 differences}
+  \FunctionTok{count}\NormalTok{(}\AttributeTok{wt=}\NormalTok{n) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{pull}\NormalTok{() }\CommentTok{\#8,574}
+
+\NormalTok{\}}
+
+\NormalTok{b2 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(delta) \{}
+
+\NormalTok{B2 }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(income\_bin }\SpecialCharTok{\textgreater{}=} \DecValTok{365000} \SpecialCharTok{{-}} \DecValTok{2500}\SpecialCharTok{*}\DecValTok{2}\SpecialCharTok{*}\NormalTok{delta }\SpecialCharTok{\&}\NormalTok{ income\_bin }\SpecialCharTok{\textless{}=} \DecValTok{365000} \SpecialCharTok{{-}} \DecValTok{2500}\SpecialCharTok{*}\NormalTok{delta) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{count}\NormalTok{(}\AttributeTok{wt=}\NormalTok{n) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{pull}\NormalTok{() }\CommentTok{\# 3615}
+
+\NormalTok{\}}
+
+\NormalTok{b3 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(delta) \{}
+
+\NormalTok{B3 }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(income\_bin }\SpecialCharTok{\textgreater{}=} \DecValTok{365000} \SpecialCharTok{+} \DecValTok{2500}\SpecialCharTok{*}\NormalTok{delta }\SpecialCharTok{\&}\NormalTok{ income\_bin }\SpecialCharTok{\textless{}=} \DecValTok{365000} \SpecialCharTok{+} \DecValTok{2500}\SpecialCharTok{*}\DecValTok{2}\SpecialCharTok{*}\NormalTok{delta) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{count}\NormalTok{(}\AttributeTok{wt=}\NormalTok{n) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{pull}\NormalTok{() }\CommentTok{\# 2982}
+\NormalTok{\}}
+
+\NormalTok{B }\OtherTok{\textless{}{-}} \FunctionTok{b}\NormalTok{(}\DecValTok{2}\NormalTok{)}
+\NormalTok{B1 }\OtherTok{\textless{}{-}} \FunctionTok{b1}\NormalTok{(}\DecValTok{2}\NormalTok{)}
+\NormalTok{B2 }\OtherTok{\textless{}{-}} \FunctionTok{b2}\NormalTok{(}\DecValTok{2}\NormalTok{)}
+\NormalTok{B3 }\OtherTok{\textless{}{-}} \FunctionTok{b3}\NormalTok{(}\DecValTok{2}\NormalTok{)}
 
 \NormalTok{B }\CommentTok{\#1977}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-[1] 1977
+[1] 0.01241817
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{B1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 2852
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{B2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 1083
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{B3}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 904
 \end{verbatim}
 
 Now we also need to compute two \(h\) in the main equation. Empirically
@@ -353,15 +429,15 @@ we can calculate this by dividing B2, B3 by \(\delta\) respectively.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{h\_min }\OtherTok{=}\NormalTok{ B2 }\SpecialCharTok{/} \DecValTok{20000}
-\NormalTok{h\_plus }\OtherTok{=}\NormalTok{ B3 }\SpecialCharTok{/} \DecValTok{20000}
+\NormalTok{h\_min }\OtherTok{=}\NormalTok{ (B2 }\SpecialCharTok{/} \DecValTok{5000}\NormalTok{) }\SpecialCharTok{/}\NormalTok{ A}
+\NormalTok{h\_plus }\OtherTok{=}\NormalTok{ (B3 }\SpecialCharTok{/} \DecValTok{5000}\NormalTok{) }\SpecialCharTok{/}\NormalTok{ A }
 
 \NormalTok{h\_min}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-[1] 0.18075
+[1] 3.109567e-06
 \end{verbatim}
 
 \begin{Shaded}
@@ -371,7 +447,7 @@ we can calculate this by dividing B2, B3 by \(\delta\) respectively.
 \end{Shaded}
 
 \begin{verbatim}
-[1] 0.1491
+[1] 2.595613e-06
 \end{verbatim}
 
 Finally, we can plug in the values we got from the data and get the
@@ -383,11 +459,15 @@ main equation:
 \begin{Highlighting}[]
 \CommentTok{\# Define the function whose root we want to find}
 \NormalTok{f }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(e) \{}
-  \DecValTok{363750} \SpecialCharTok{*}\NormalTok{ (((}\DecValTok{1}\FloatTok{{-}0.21}\NormalTok{) }\SpecialCharTok{/}\NormalTok{ (}\DecValTok{1}\FloatTok{{-}0.28}\NormalTok{))}\SpecialCharTok{\^{}}\NormalTok{e }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ ( ((h\_min }\SpecialCharTok{+}\NormalTok{ h\_plus) }\SpecialCharTok{/}\NormalTok{ ((}\DecValTok{1}\FloatTok{{-}0.21}\NormalTok{) }\SpecialCharTok{/}\NormalTok{ (}\DecValTok{1}\FloatTok{{-}0.28}\NormalTok{))}\SpecialCharTok{\^{}}\NormalTok{e) }\SpecialCharTok{/} \DecValTok{2}\NormalTok{) }\SpecialCharTok{{-}}\NormalTok{ B}
+
+\NormalTok{  z  }\OtherTok{\textless{}{-}} \DecValTok{365000}
+\NormalTok{  ratio }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}} \FloatTok{0.07}\NormalTok{) }\SpecialCharTok{/}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}} \FloatTok{0.21}\NormalTok{)}
+
+\NormalTok{  z }\SpecialCharTok{*}\NormalTok{ (ratio}\SpecialCharTok{\^{}}\NormalTok{e }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ ( (h\_min }\SpecialCharTok{+}\NormalTok{ (h\_plus }\SpecialCharTok{/}\NormalTok{ ratio}\SpecialCharTok{\^{}}\NormalTok{e)) }\SpecialCharTok{/} \DecValTok{2}\NormalTok{) }\SpecialCharTok{{-}}\NormalTok{ B}
 \NormalTok{\}}
 
 \CommentTok{\# Use uniroot to solve f(e) = 0 in a reasonable range for e}
-\NormalTok{result }\OtherTok{\textless{}{-}} \FunctionTok{uniroot}\NormalTok{(f, }\AttributeTok{lower =} \SpecialCharTok{{-}}\DecValTok{10}\NormalTok{, }\AttributeTok{upper =} \DecValTok{10}\NormalTok{)}
+\NormalTok{result }\OtherTok{\textless{}{-}} \FunctionTok{uniroot}\NormalTok{(f, }\AttributeTok{lower =} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\AttributeTok{upper =} \DecValTok{1}\NormalTok{)}
 
 \CommentTok{\# Extract the solution}
 \NormalTok{e\_solution }\OtherTok{\textless{}{-}}\NormalTok{ result}\SpecialCharTok{$}\NormalTok{root}
@@ -396,7 +476,7 @@ main equation:
 \end{Shaded}
 
 \begin{verbatim}
-[1] 0.361171
+[1] 0.07306182
 \end{verbatim}
 
 \subsection{c.}\label{c.}
@@ -423,16 +503,17 @@ main equation:
 \CommentTok{\# Step 2: Estimate bunching}
 \NormalTok{estim }\OtherTok{\textless{}{-}} \FunctionTok{bunch}\NormalTok{(}
   \AttributeTok{earnings =}\NormalTok{ z\_vector,}
-  \AttributeTok{zstar =} \DecValTok{363750}\NormalTok{,}
+  \AttributeTok{zstar =} \DecValTok{365000}\NormalTok{,}
   \AttributeTok{binw =} \DecValTok{2500}\NormalTok{,}
-  \AttributeTok{t1 =} \FloatTok{0.21}\NormalTok{,}
-  \AttributeTok{t2 =} \FloatTok{0.28}\NormalTok{,}
-  \AttributeTok{cf\_start =} \DecValTok{7}\NormalTok{,}
-  \AttributeTok{cf\_end =} \DecValTok{7}\NormalTok{,}
-  \AttributeTok{exclude\_before =} \DecValTok{2}\NormalTok{,}
+  \AttributeTok{t1 =} \FloatTok{0.07}\NormalTok{,}
+  \AttributeTok{t2 =} \FloatTok{0.21}\NormalTok{,}
+  \AttributeTok{cf\_start =} \DecValTok{10}\NormalTok{,}
+  \AttributeTok{cf\_end =} \DecValTok{10}\NormalTok{,}
+  \AttributeTok{exclude\_before =} \DecValTok{3}\NormalTok{,}
   \AttributeTok{exclude\_after =} \DecValTok{2}\NormalTok{,}
-  \AttributeTok{poly\_size =} \DecValTok{2}\NormalTok{,}
-  \AttributeTok{draw =} \ConstantTok{TRUE}
+  \CommentTok{\# poly\_size = 2,}
+  \AttributeTok{draw =} \ConstantTok{TRUE}\NormalTok{,}
+  \AttributeTok{nboots =} \DecValTok{100}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -447,7 +528,7 @@ main equation:
 \end{Shaded}
 
 \begin{verbatim}
-[1] 0.1318855
+[1] 0.077713
 \end{verbatim}
 
 \subsection{d.}\label{d.}
@@ -460,6 +541,44 @@ main equation:
 \end{itemize}
 
 \section{Part 2}\label{part-2}
+
+There is no straightforward answer to this question. Before we started
+to consider the dynamic nature of the taxation policy, the consensus was
+that we should not tax the capital. The reason was similar to our
+consensus on not wanting to tax the commodity. By Atkinson-? result, we
+should only be taxing through income as taxing through commodity or
+capital will further distort the behavior of people.
+
+But our consensus changes if we move onto a dynamic setting. In fact,
+some papers have shown that the capital taxation should be positive in
+the dynamic setting. The intuition for this is because in the dynamic
+setting people try to save more for the future to account for any
+possible risk in the future such as negative shock on their
+ability.Hence it leads to a negative fiscal externality for the
+government revenue. In order to alleviate this, the government should
+try to tax the capital. In this case, we could say it should tax the
+capital to internalize this negative externality.
+
+However, setting positive capital taxation might not be that important
+in terms of policy perspective. This is because some papers have shown
+that while it is true that capital tax is positive in dynamic setting,
+its actual magnitude seems to be small (close to zero). Thus in real
+life policy, it might not make much of a difference whether you tax
+capital (very slightly) or not.
+
+In the end, I think we can summarize it as follows:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  In static model, it was not recommended to tax the capital.
+\item
+  In dynamic setup, the results from static case changed and the optiaml
+  capital taxation should be positive.
+\item
+  However, even accounting for this the real life optimal tax for the
+  capital should be near zero.
+\end{enumerate}
 
 \subsection*{References}\label{references}
 \addcontentsline{toc}{subsection}{References}

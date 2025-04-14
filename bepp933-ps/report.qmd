@@ -73,38 +73,77 @@ $$
   B = z^* \left[ \left( \frac{1-t_0}{1-t_1} \right)^e - 1 \right] \frac{h(z^*)\_ + h(z^*)_+ \bigg/ \left( \frac{1-t_0}{1-t_1} \right)^e}{2}.
 $$
 
-In order to compute $B$, we need to decide $\delta$ to calculate the width we will use to calculate excess bunching. We will use the "simplest method" mentioned in the paper which is to select $\delta$ graphically such that the full excess bunching is included in the band $(z^* - \delta + z^* + \delta)$. In our case, it seems to be about $\delta = 8$ (Note that since out data is in income bin of width 2500, this is equivalent to 20,000 difference). Numerically, it will be calculated as follows (this is just following the equation (6) in the paper):
+In order to compute $B$, we need to decide $\delta$ to calculate the width we will use to calculate excess bunching. We will use the "simplest method" mentioned in the paper which is to select $\delta$ graphically such that the full excess bunching is included in the band $(z^* - \delta + z^* + \delta)$. In our case, it seems to be about $\delta = 10$ (Note that since out data is in income bin of width 2,500, this is equivalent to 25,000 difference). Numerically, it will be calculated as follows (this is just following the equation (6) in the paper):
 
 ```{r}
 
 A <- data %>% count(wt=n) %>% pull()
+A
+
+b <- function(delta) {
 
 B1  <- data %>% 
-  filter(income_bin >= 342750 & income_bin <= 383650) %>%  # 20,000 differences
+  filter(income_bin >= 365000 - 2500*delta & income_bin <= 365000 + 2500*delta) %>%  # 25,000 differences
   count(wt=n) %>% 
   pull() #8,574
 
 B2 <- data %>% 
-  filter(income_bin >= 323750 & income_bin <= 342750) %>% 
+  filter(income_bin >= 365000 - 2500*2*delta & income_bin <= 365000 - 2500*delta) %>% 
   count(wt=n) %>% 
   pull() # 3615
 
 B3 <- data %>% 
-  filter(income_bin >= 383750 & income_bin <= 402750) %>% 
+  filter(income_bin >= 365000 + 2500*delta & income_bin <= 365000 + 2500*2*delta) %>% 
   count(wt=n) %>% 
   pull() # 2982
 
-B = (B1/A) - (B2/A) - (B3/A)
+B = (B1 - B2 - B3) / A
+
+}
+
+b1 <- function(delta) {
+
+B1  <- data %>% 
+  filter(income_bin >= 365000 - 2500*delta & income_bin <= 365000 + 2500*delta) %>%  # 25,000 differences
+  count(wt=n) %>% 
+  pull() #8,574
+
+}
+
+b2 <- function(delta) {
+
+B2 <- data %>% 
+  filter(income_bin >= 365000 - 2500*2*delta & income_bin <= 365000 - 2500*delta) %>% 
+  count(wt=n) %>% 
+  pull() # 3615
+
+}
+
+b3 <- function(delta) {
+
+B3 <- data %>% 
+  filter(income_bin >= 365000 + 2500*delta & income_bin <= 365000 + 2500*2*delta) %>% 
+  count(wt=n) %>% 
+  pull() # 2982
+}
+
+B <- b(2)
+B1 <- b1(2)
+B2 <- b2(2)
+B3 <- b3(2)
 
 B #1977
+B1
+B2
+B3
 ```
 
 Now we also need to compute two $h$ in the main equation. Empirically we can calculate this by dividing B2, B3 by $\delta$ respectively. 
 
 ```{r}
 
-h_min = (B2/A) / 20000
-h_plus = (B3/A) / 20000
+h_min = (B2 / 5000) / A
+h_plus = (B3 / 5000) / A 
 
 h_min
 h_plus
@@ -116,11 +155,15 @@ Finally, we can plug in the values we got from the data and get the elasticity $
 
 # Define the function whose root we want to find
 f <- function(e) {
-  363750 * (((1-0.21) / (1-0.28))^e - 1) * ( (h_min + (h_plus / ((1-0.21) / (1-0.28))^e)) / 2) - B
+
+  z  <- 365000
+  ratio <- (1 - 0.07) / (1 - 0.21)
+
+  z * (ratio^e - 1) * ( (h_min + (h_plus / ratio^e)) / 2) - B
 }
 
 # Use uniroot to solve f(e) = 0 in a reasonable range for e
-result <- uniroot(f, lower = -10, upper = 10)
+result <- uniroot(f, lower = -1, upper = 1)
 
 # Extract the solution
 e_solution <- result$root
@@ -153,16 +196,17 @@ z_vector <- data %>%
 # Step 2: Estimate bunching
 estim <- bunch(
   earnings = z_vector,
-  zstar = 363750,
+  zstar = 365000,
   binw = 2500,
-  t1 = 0.21,
-  t2 = 0.28,
-  cf_start = 7,
-  cf_end = 7,
-  exclude_before = 2,
+  t1 = 0.07,
+  t2 = 0.21,
+  cf_start = 10,
+  cf_end = 10,
+  exclude_before = 3,
   exclude_after = 2,
-  poly_size = 2,
-  draw = TRUE
+  # poly_size = 2,
+  draw = TRUE,
+  nboots = 100
 )
 
 # Estimate of the elasticity from the package
@@ -174,6 +218,20 @@ estim$e
 - Different: (1) setting the bunching width, (2) excluding bins, (3) polynomial order.
 
 # Part 2
+
+There is no straightforward answer to this question. Before we started to consider the dynamic nature of the taxation policy, the consensus was that we should not tax the capital. The reason was similar to our consensus on not wanting to tax the commodity. By Atkinson-? result, we should only be taxing through income as taxing through commodity or capital will further distort the behavior of people. 
+
+But our consensus changes if we move onto a dynamic setting. In fact, some papers have shown that the capital taxation should be positive in the dynamic setting. The intuition for this is because in the dynamic setting people try to save more for the future to account for any possible risk in the future such as negative shock on their ability.Hence it leads to a negative fiscal externality for the government revenue. In order to alleviate this, the government should try to tax the capital. In this case, we could say it should tax the capital to internalize this negative externality. 
+
+However, setting positive capital taxation might not be that important in terms of policy perspective. This is because some papers have shown that while it is true that capital tax is positive in dynamic setting, its actual magnitude seems to be small (close to zero). Thus in real life policy, it might not make much of a difference whether you tax capital (very slightly) or not.
+
+In the end, I think we can summarize it as follows: 
+
+1. In static model, it was not recommended to tax the capital.
+
+2. In dynamic setup, the results from static case changed and the optiaml capital taxation should be positive.
+
+3. However, even accounting for this the real life optimal tax for the capital should be near zero.
 
 ## References {.unnumbered}
 
