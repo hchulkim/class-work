@@ -302,9 +302,9 @@ distribution:
 \subsection{b.}\label{b.}
 
 We will be following Saez (2010) to construct the equation to retrieve
-the elasticity \(e\). Note for our case, the kink happens as
-\(z^* = 363750\) and marginal tax rate changes from \(0.21\) to
-\(0.28\). We need to use equation (5) in the paper to get the
+the elasticity \(e\). Note for our case, the kink happens at
+\(z^* = 365000\) and marginal tax rate changes from \(0.07\) to
+\(0.21\). We need to use equation (5) in the paper to get the
 elasticity. The equation is as follows:
 
 \[
@@ -316,24 +316,15 @@ width we will use to calculate excess bunching. We will use the
 ``simplest method'' mentioned in the paper which is to select \(\delta\)
 graphically such that the full excess bunching is included in the band
 \((z^* - \delta + z^* + \delta)\). In our case, it seems to be about
-\(\delta = 10\) (Note that since out data is in income bin of width
-2,500, this is equivalent to 25,000 difference). Numerically, it will be
+\(\delta = 4\) (Note that since our data is in income bin of width
+2,500, this is equivalent to 10,000 difference). Numerically, it will be
 calculated as follows (this is just following the equation (6) in the
 paper):
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{A }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{count}\NormalTok{(}\AttributeTok{wt=}\NormalTok{n) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{pull}\NormalTok{()}
-\NormalTok{A}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-[1] 69656
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{b }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(delta) \{}
 
 \NormalTok{B1  }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%} 
@@ -381,51 +372,19 @@ paper):
   \FunctionTok{pull}\NormalTok{() }\CommentTok{\# 2982}
 \NormalTok{\}}
 
-\NormalTok{B }\OtherTok{\textless{}{-}} \FunctionTok{b}\NormalTok{(}\DecValTok{2}\NormalTok{)}
-\NormalTok{B1 }\OtherTok{\textless{}{-}} \FunctionTok{b1}\NormalTok{(}\DecValTok{2}\NormalTok{)}
-\NormalTok{B2 }\OtherTok{\textless{}{-}} \FunctionTok{b2}\NormalTok{(}\DecValTok{2}\NormalTok{)}
-\NormalTok{B3 }\OtherTok{\textless{}{-}} \FunctionTok{b3}\NormalTok{(}\DecValTok{2}\NormalTok{)}
-
-\NormalTok{B }\CommentTok{\#1977}
+\NormalTok{B }\OtherTok{\textless{}{-}} \FunctionTok{b}\NormalTok{(}\DecValTok{4}\NormalTok{)}
+\NormalTok{B1 }\OtherTok{\textless{}{-}} \FunctionTok{b1}\NormalTok{(}\DecValTok{4}\NormalTok{)}
+\NormalTok{B2 }\OtherTok{\textless{}{-}} \FunctionTok{b2}\NormalTok{(}\DecValTok{4}\NormalTok{)}
+\NormalTok{B3 }\OtherTok{\textless{}{-}} \FunctionTok{b3}\NormalTok{(}\DecValTok{4}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-[1] 0.01241817
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{B1}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-[1] 2852
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{B2}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-[1] 1083
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{B3}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-[1] 904
-\end{verbatim}
+Note that we computed \(B\) in the equation by getting the total
+fraction of people that are in the excess bunching.
 
 Now we also need to compute two \(h\) in the main equation. Empirically
 we can calculate this by dividing B2, B3 by \(\delta\) respectively.
+They are the left and right density point around the bunching.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -437,7 +396,7 @@ we can calculate this by dividing B2, B3 by \(\delta\) respectively.
 \end{Shaded}
 
 \begin{verbatim}
-[1] 3.109567e-06
+[1] 5.891811e-06
 \end{verbatim}
 
 \begin{Shaded}
@@ -447,7 +406,7 @@ we can calculate this by dividing B2, B3 by \(\delta\) respectively.
 \end{Shaded}
 
 \begin{verbatim}
-[1] 2.595613e-06
+[1] 4.648559e-06
 \end{verbatim}
 
 Finally, we can plug in the values we got from the data and get the
@@ -476,10 +435,13 @@ main equation:
 \end{Shaded}
 
 \begin{verbatim}
-[1] 0.07306182
+[1] 0.05340052
 \end{verbatim}
 
 \subsection{c.}\label{c.}
+
+Using \texttt{bunchr} package in R, I plot the counterfactual density
+and get the estimate of the elasticity as follows:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -507,10 +469,10 @@ main equation:
   \AttributeTok{binw =} \DecValTok{2500}\NormalTok{,}
   \AttributeTok{t1 =} \FloatTok{0.07}\NormalTok{,}
   \AttributeTok{t2 =} \FloatTok{0.21}\NormalTok{,}
-  \AttributeTok{cf\_start =} \DecValTok{10}\NormalTok{,}
-  \AttributeTok{cf\_end =} \DecValTok{10}\NormalTok{,}
-  \AttributeTok{exclude\_before =} \DecValTok{3}\NormalTok{,}
-  \AttributeTok{exclude\_after =} \DecValTok{2}\NormalTok{,}
+  \AttributeTok{cf\_start =} \DecValTok{15}\NormalTok{,}
+  \AttributeTok{cf\_end =} \DecValTok{13}\NormalTok{,}
+  \AttributeTok{exclude\_before =} \DecValTok{9}\NormalTok{,}
+  \AttributeTok{exclude\_after =} \DecValTok{4}\NormalTok{,}
   \CommentTok{\# poly\_size = 2,}
   \AttributeTok{draw =} \ConstantTok{TRUE}\NormalTok{,}
   \AttributeTok{nboots =} \DecValTok{100}
@@ -528,17 +490,28 @@ main equation:
 \end{Shaded}
 
 \begin{verbatim}
-[1] 0.077713
+[1] 0.1055593
 \end{verbatim}
 
 \subsection{d.}\label{d.}
 
-\begin{itemize}
-\tightlist
-\item
-  Different: (1) setting the bunching width, (2) excluding bins, (3)
-  polynomial order.
-\end{itemize}
+The elasticity in (b) does not match the one in (c). It may be due to
+several reasons. First, in (b) I set \(\delta=4\) which is different
+from (c) and I also set asymmetric bandwidth in \texttt{bunchr} package.
+Due to these different settings, the results would be different from
+each other. While both results are bit different from the working paper
+by Anagol et al. (2024), the result I got from (c) seems to be more
+close to the working paper. This is likely because, like Chetty et al.
+(2011), Anagol et al. (2024) proposes a method for estimating \(B\)
+using the observed density, without requiring full knowledge of the
+counterfactual densities. However, Anagol et al. (2024)'s approach
+differs somewhat from that of Chetty et al. (2011) and other related
+work. While Chetty et al. (2011) estimates \(B\) by integrating over the
+observed density relative to a counterfactual density estimated via
+polynomial fitting, Anagol et al. (2024) takes a more explicit approach
+to modeling the diffusion process---separately identifying the diffuse
+bunching expected near a kink from the underlying counterfactual
+distribution.
 
 \section{Part 2}\label{part-2}
 
@@ -585,6 +558,19 @@ In the end, I think we can summarize it as follows:
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-anagol}
+Anagol, Santosh, Allan Davids, Benjamin B Lockwood, and Tarun Ramadorai.
+2024. {``Diffuse Bunching with Frictions: Theory and Estimation.''}
+Working Paper 32597. Working Paper Series. National Bureau of Economic
+Research. \url{https://doi.org/10.3386/w32597}.
+
+\bibitem[\citeproctext]{ref-chetty}
+Chetty, Raj, John N. Friedman, Tore Olsen, and Luigi Pistaferri. 2011.
+{``Adjustment Costs, Firm Responses, and Micro Vs. Macro Labor Supply
+Elasticities: Evidence from Danish Tax Records *.''} \emph{The Quarterly
+Journal of Economics} 126 (2): 749--804.
+\url{https://doi.org/10.1093/qje/qjr013}.
+
 \bibitem[\citeproctext]{ref-saez2010}
 Saez, Emmanuel. 2010. {``Do Taxpayers Bunch at Kink Points?''}
 \emph{American Economic Journal: Economic Policy} 2 (3): 180--212.

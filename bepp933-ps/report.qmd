@@ -67,18 +67,17 @@ earning_dist
 
 ## b.
 
-We will be following @saez2010 to construct the equation to retrieve the elasticity $e$. Note for our case, the kink happens as $z^* = 363750$ and marginal tax rate changes from $0.21$ to $0.28$. We need to use equation (5) in the paper to get the elasticity. The equation is as follows:
+We will be following @saez2010 to construct the equation to retrieve the elasticity $e$. Note for our case, the kink happens at $z^* = 365000$ and marginal tax rate changes from $0.07$ to $0.21$. We need to use equation (5) in the paper to get the elasticity. The equation is as follows:
 
 $$
   B = z^* \left[ \left( \frac{1-t_0}{1-t_1} \right)^e - 1 \right] \frac{h(z^*)\_ + h(z^*)_+ \bigg/ \left( \frac{1-t_0}{1-t_1} \right)^e}{2}.
 $$
 
-In order to compute $B$, we need to decide $\delta$ to calculate the width we will use to calculate excess bunching. We will use the "simplest method" mentioned in the paper which is to select $\delta$ graphically such that the full excess bunching is included in the band $(z^* - \delta + z^* + \delta)$. In our case, it seems to be about $\delta = 10$ (Note that since out data is in income bin of width 2,500, this is equivalent to 25,000 difference). Numerically, it will be calculated as follows (this is just following the equation (6) in the paper):
+In order to compute $B$, we need to decide $\delta$ to calculate the width we will use to calculate excess bunching. We will use the "simplest method" mentioned in the paper which is to select $\delta$ graphically such that the full excess bunching is included in the band $(z^* - \delta + z^* + \delta)$. In our case, it seems to be about $\delta = 4$ (Note that since our data is in income bin of width 2,500, this is equivalent to 10,000 difference). Numerically, it will be calculated as follows (this is just following the equation (6) in the paper):
 
 ```{r}
 
 A <- data %>% count(wt=n) %>% pull()
-A
 
 b <- function(delta) {
 
@@ -127,18 +126,16 @@ B3 <- data %>%
   pull() # 2982
 }
 
-B <- b(2)
-B1 <- b1(2)
-B2 <- b2(2)
-B3 <- b3(2)
+B <- b(4)
+B1 <- b1(4)
+B2 <- b2(4)
+B3 <- b3(4)
 
-B #1977
-B1
-B2
-B3
 ```
 
-Now we also need to compute two $h$ in the main equation. Empirically we can calculate this by dividing B2, B3 by $\delta$ respectively. 
+Note that we computed $B$ in the equation by getting the total fraction of people that are in the excess bunching.
+
+Now we also need to compute two $h$ in the main equation. Empirically we can calculate this by dividing B2, B3 by $\delta$ respectively. They are the left and right density point around the bunching.
 
 ```{r}
 
@@ -173,6 +170,8 @@ print(e_solution)
 
 ## c.
 
+Using `bunchr` package in R, I plot the counterfactual density and get the estimate of the elasticity as follows:
+
 ```{r}
 #| warning: false
 
@@ -200,10 +199,10 @@ estim <- bunch(
   binw = 2500,
   t1 = 0.07,
   t2 = 0.21,
-  cf_start = 10,
-  cf_end = 10,
-  exclude_before = 3,
-  exclude_after = 2,
+  cf_start = 15,
+  cf_end = 13,
+  exclude_before = 9,
+  exclude_after = 4,
   # poly_size = 2,
   draw = TRUE,
   nboots = 100
@@ -215,7 +214,7 @@ estim$e
 
 ## d.
 
-- Different: (1) setting the bunching width, (2) excluding bins, (3) polynomial order.
+The elasticity in (b) does not match the one in (c). It may be due to several reasons. First, in (b) I set $\delta=4$ which is different from (c) and I also set asymmetric bandwidth in `bunchr` package. Due to these different settings, the results would be different from each other. While both results are bit different from the working paper by @anagol, the result I got from (c) seems to be more close to the working paper. This is likely because, like @chetty, @anagol proposes a method for estimating $B$ using the observed density, without requiring full knowledge of the counterfactual densities. However, @anagol’s approach differs somewhat from that of @chetty and other related work. While @chetty estimates $B$ by integrating over the observed density relative to a counterfactual density estimated via polynomial fitting, @anagol takes a more explicit approach to modeling the diffusion process—separately identifying the diffuse bunching expected near a kink from the underlying counterfactual distribution. 
 
 # Part 2
 

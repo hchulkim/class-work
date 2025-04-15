@@ -238,157 +238,139 @@ window.Quarto = {
 </section>
 <section id="b." class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="b."><span class="header-section-number">1.2</span> b.</h2>
-<p>We will be following <span class="citation" data-cites="saez2010">Saez (<a href="#ref-saez2010" role="doc-biblioref">2010</a>)</span> to construct the equation to retrieve the elasticity <span class="math inline">\(e\)</span>. Note for our case, the kink happens as <span class="math inline">\(z^* = 363750\)</span> and marginal tax rate changes from <span class="math inline">\(0.21\)</span> to <span class="math inline">\(0.28\)</span>. We need to use equation (5) in the paper to get the elasticity. The equation is as follows:</p>
+<p>We will be following <span class="citation" data-cites="saez2010">Saez (<a href="#ref-saez2010" role="doc-biblioref">2010</a>)</span> to construct the equation to retrieve the elasticity <span class="math inline">\(e\)</span>. Note for our case, the kink happens at <span class="math inline">\(z^* = 365000\)</span> and marginal tax rate changes from <span class="math inline">\(0.07\)</span> to <span class="math inline">\(0.21\)</span>. We need to use equation (5) in the paper to get the elasticity. The equation is as follows:</p>
 <p><span class="math display">\[
   B = z^* \left[ \left( \frac{1-t_0}{1-t_1} \right)^e - 1 \right] \frac{h(z^*)\_ + h(z^*)_+ \bigg/ \left( \frac{1-t_0}{1-t_1} \right)^e}{2}.
 \]</span></p>
-<p>In order to compute <span class="math inline">\(B\)</span>, we need to decide <span class="math inline">\(\delta\)</span> to calculate the width we will use to calculate excess bunching. We will use the “simplest method” mentioned in the paper which is to select <span class="math inline">\(\delta\)</span> graphically such that the full excess bunching is included in the band <span class="math inline">\((z^* - \delta + z^* + \delta)\)</span>. In our case, it seems to be about <span class="math inline">\(\delta = 10\)</span> (Note that since out data is in income bin of width 2,500, this is equivalent to 25,000 difference). Numerically, it will be calculated as follows (this is just following the equation (6) in the paper):</p>
+<p>In order to compute <span class="math inline">\(B\)</span>, we need to decide <span class="math inline">\(\delta\)</span> to calculate the width we will use to calculate excess bunching. We will use the “simplest method” mentioned in the paper which is to select <span class="math inline">\(\delta\)</span> graphically such that the full excess bunching is included in the band <span class="math inline">\((z^* - \delta + z^* + \delta)\)</span>. In our case, it seems to be about <span class="math inline">\(\delta = 4\)</span> (Note that since our data is in income bin of width 2,500, this is equivalent to 10,000 difference). Numerically, it will be calculated as follows (this is just following the equation (6) in the paper):</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> <span class="fu">pull</span>()</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 69656</code></pre>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="cf">function</span>(delta) {</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>B1  <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income_bin <span class="sc">&gt;=</span> <span class="dv">365000</span> <span class="sc">-</span> <span class="dv">2500</span><span class="sc">*</span>delta <span class="sc">&amp;</span> income_bin <span class="sc">&lt;=</span> <span class="dv">365000</span> <span class="sc">+</span> <span class="dv">2500</span><span class="sc">*</span>delta) <span class="sc">%&gt;%</span>  <span class="co"># 25,000 differences</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>() <span class="co">#8,574</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>B2 <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income_bin <span class="sc">&gt;=</span> <span class="dv">365000</span> <span class="sc">-</span> <span class="dv">2500</span><span class="sc">*</span><span class="dv">2</span><span class="sc">*</span>delta <span class="sc">&amp;</span> income_bin <span class="sc">&lt;=</span> <span class="dv">365000</span> <span class="sc">-</span> <span class="dv">2500</span><span class="sc">*</span>delta) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>() <span class="co"># 3615</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>B3 <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income_bin <span class="sc">&gt;=</span> <span class="dv">365000</span> <span class="sc">+</span> <span class="dv">2500</span><span class="sc">*</span>delta <span class="sc">&amp;</span> income_bin <span class="sc">&lt;=</span> <span class="dv">365000</span> <span class="sc">+</span> <span class="dv">2500</span><span class="sc">*</span><span class="dv">2</span><span class="sc">*</span>delta) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>() <span class="co"># 2982</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>B <span class="ot">=</span> (B1 <span class="sc">-</span> B2 <span class="sc">-</span> B3) <span class="sc">/</span> A</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> <span class="cf">function</span>(delta) {</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>B1  <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income_bin <span class="sc">&gt;=</span> <span class="dv">365000</span> <span class="sc">-</span> <span class="dv">2500</span><span class="sc">*</span>delta <span class="sc">&amp;</span> income_bin <span class="sc">&lt;=</span> <span class="dv">365000</span> <span class="sc">+</span> <span class="dv">2500</span><span class="sc">*</span>delta) <span class="sc">%&gt;%</span>  <span class="co"># 25,000 differences</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>() <span class="co">#8,574</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>b2 <span class="ot">&lt;-</span> <span class="cf">function</span>(delta) {</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>B2 <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income_bin <span class="sc">&gt;=</span> <span class="dv">365000</span> <span class="sc">-</span> <span class="dv">2500</span><span class="sc">*</span><span class="dv">2</span><span class="sc">*</span>delta <span class="sc">&amp;</span> income_bin <span class="sc">&lt;=</span> <span class="dv">365000</span> <span class="sc">-</span> <span class="dv">2500</span><span class="sc">*</span>delta) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>() <span class="co"># 3615</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>b3 <span class="ot">&lt;-</span> <span class="cf">function</span>(delta) {</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>B3 <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income_bin <span class="sc">&gt;=</span> <span class="dv">365000</span> <span class="sc">+</span> <span class="dv">2500</span><span class="sc">*</span>delta <span class="sc">&amp;</span> income_bin <span class="sc">&lt;=</span> <span class="dv">365000</span> <span class="sc">+</span> <span class="dv">2500</span><span class="sc">*</span><span class="dv">2</span><span class="sc">*</span>delta) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>() <span class="co"># 2982</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">b</span>(<span class="dv">4</span>)</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>B1 <span class="ot">&lt;-</span> <span class="fu">b1</span>(<span class="dv">4</span>)</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>B2 <span class="ot">&lt;-</span> <span class="fu">b2</span>(<span class="dv">4</span>)</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>B3 <span class="ot">&lt;-</span> <span class="fu">b3</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="cf">function</span>(delta) {</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>B1  <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income_bin <span class="sc">&gt;=</span> <span class="dv">365000</span> <span class="sc">-</span> <span class="dv">2500</span><span class="sc">*</span>delta <span class="sc">&amp;</span> income_bin <span class="sc">&lt;=</span> <span class="dv">365000</span> <span class="sc">+</span> <span class="dv">2500</span><span class="sc">*</span>delta) <span class="sc">%&gt;%</span>  <span class="co"># 25,000 differences</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>() <span class="co">#8,574</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>B2 <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income_bin <span class="sc">&gt;=</span> <span class="dv">365000</span> <span class="sc">-</span> <span class="dv">2500</span><span class="sc">*</span><span class="dv">2</span><span class="sc">*</span>delta <span class="sc">&amp;</span> income_bin <span class="sc">&lt;=</span> <span class="dv">365000</span> <span class="sc">-</span> <span class="dv">2500</span><span class="sc">*</span>delta) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>() <span class="co"># 3615</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>B3 <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income_bin <span class="sc">&gt;=</span> <span class="dv">365000</span> <span class="sc">+</span> <span class="dv">2500</span><span class="sc">*</span>delta <span class="sc">&amp;</span> income_bin <span class="sc">&lt;=</span> <span class="dv">365000</span> <span class="sc">+</span> <span class="dv">2500</span><span class="sc">*</span><span class="dv">2</span><span class="sc">*</span>delta) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>() <span class="co"># 2982</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>B <span class="ot">=</span> (B1 <span class="sc">-</span> B2 <span class="sc">-</span> B3) <span class="sc">/</span> A</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> <span class="cf">function</span>(delta) {</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>B1  <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income_bin <span class="sc">&gt;=</span> <span class="dv">365000</span> <span class="sc">-</span> <span class="dv">2500</span><span class="sc">*</span>delta <span class="sc">&amp;</span> income_bin <span class="sc">&lt;=</span> <span class="dv">365000</span> <span class="sc">+</span> <span class="dv">2500</span><span class="sc">*</span>delta) <span class="sc">%&gt;%</span>  <span class="co"># 25,000 differences</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>() <span class="co">#8,574</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>b2 <span class="ot">&lt;-</span> <span class="cf">function</span>(delta) {</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>B2 <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income_bin <span class="sc">&gt;=</span> <span class="dv">365000</span> <span class="sc">-</span> <span class="dv">2500</span><span class="sc">*</span><span class="dv">2</span><span class="sc">*</span>delta <span class="sc">&amp;</span> income_bin <span class="sc">&lt;=</span> <span class="dv">365000</span> <span class="sc">-</span> <span class="dv">2500</span><span class="sc">*</span>delta) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>() <span class="co"># 3615</span></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>b3 <span class="ot">&lt;-</span> <span class="cf">function</span>(delta) {</span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>B3 <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income_bin <span class="sc">&gt;=</span> <span class="dv">365000</span> <span class="sc">+</span> <span class="dv">2500</span><span class="sc">*</span>delta <span class="sc">&amp;</span> income_bin <span class="sc">&lt;=</span> <span class="dv">365000</span> <span class="sc">+</span> <span class="dv">2500</span><span class="sc">*</span><span class="dv">2</span><span class="sc">*</span>delta) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">wt=</span>n) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>() <span class="co"># 2982</span></span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">b</span>(<span class="dv">2</span>)</span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>B1 <span class="ot">&lt;-</span> <span class="fu">b1</span>(<span class="dv">2</span>)</span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>B2 <span class="ot">&lt;-</span> <span class="fu">b2</span>(<span class="dv">2</span>)</span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>B3 <span class="ot">&lt;-</span> <span class="fu">b3</span>(<span class="dv">2</span>)</span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>B <span class="co">#1977</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.01241817</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>B1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2852</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>B2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1083</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>B3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 904</code></pre>
-</div>
-</div>
-<p>Now we also need to compute two <span class="math inline">\(h\)</span> in the main equation. Empirically we can calculate this by dividing B2, B3 by <span class="math inline">\(\delta\)</span> respectively.</p>
+<p>Note that we computed <span class="math inline">\(B\)</span> in the equation by getting the total fraction of people that are in the excess bunching.</p>
+<p>Now we also need to compute two <span class="math inline">\(h\)</span> in the main equation. Empirically we can calculate this by dividing B2, B3 by <span class="math inline">\(\delta\)</span> respectively. They are the left and right density point around the bunching.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>h_min <span class="ot">=</span> (B2 <span class="sc">/</span> <span class="dv">5000</span>) <span class="sc">/</span> A</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>h_plus <span class="ot">=</span> (B3 <span class="sc">/</span> <span class="dv">5000</span>) <span class="sc">/</span> A </span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>h_min</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>h_min <span class="ot">=</span> (B2 <span class="sc">/</span> <span class="dv">5000</span>) <span class="sc">/</span> A</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>h_plus <span class="ot">=</span> (B3 <span class="sc">/</span> <span class="dv">5000</span>) <span class="sc">/</span> A </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>h_min</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3.109567e-06</code></pre>
+<pre><code>[1] 5.891811e-06</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>h_plus</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>h_plus</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.595613e-06</code></pre>
+<pre><code>[1] 4.648559e-06</code></pre>
 </div>
 </div>
 <p>Finally, we can plug in the values we got from the data and get the elasticity <span class="math inline">\(e\)</span>. Here, we are just basically getting the solution by plugging in the empirical numbers we computed from the data into the main equation:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the function whose root we want to find</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(e) {</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  z  <span class="ot">&lt;-</span> <span class="dv">365000</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  ratio <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.07</span>) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.21</span>)</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  z <span class="sc">*</span> (ratio<span class="sc">^</span>e <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> ( (h_min <span class="sc">+</span> (h_plus <span class="sc">/</span> ratio<span class="sc">^</span>e)) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">-</span> B</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Use uniroot to solve f(e) = 0 in a reasonable range for e</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(f, <span class="at">lower =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">upper =</span> <span class="dv">1</span>)</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the solution</span></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>e_solution <span class="ot">&lt;-</span> result<span class="sc">$</span>root</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(e_solution)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the function whose root we want to find</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(e) {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  z  <span class="ot">&lt;-</span> <span class="dv">365000</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  ratio <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.07</span>) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.21</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  z <span class="sc">*</span> (ratio<span class="sc">^</span>e <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> ( (h_min <span class="sc">+</span> (h_plus <span class="sc">/</span> ratio<span class="sc">^</span>e)) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">-</span> B</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Use uniroot to solve f(e) = 0 in a reasonable range for e</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(f, <span class="at">lower =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">upper =</span> <span class="dv">1</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the solution</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>e_solution <span class="ot">&lt;-</span> result<span class="sc">$</span>root</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(e_solution)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.07306182</code></pre>
+<pre><code>[1] 0.05340052</code></pre>
 </div>
 </div>
 </section>
 <section id="c." class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="c."><span class="header-section-number">1.3</span> c.</h2>
+<p>Using <code>bunchr</code> package in R, I plot the counterfactual density and get the estimate of the elasticity as follows:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bunchr)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># # analyzing a kink</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ability_vec &lt;- 4000 * rbeta(100000, 2, 5)</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># earning_vec &lt;- sapply(ability_vec, earning_fun, 0.2, 0, 0.2, 0, 1000)</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># earning_vec</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># # bunch_viewer(earning_vec, 1000, 20, 20, 1, 1, binw = 20)</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># estim &lt;- bunch(earning_vec, 1000, 0, 0.2, Tax = 0, 20, 20, 1, 1,</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># binw = 20, draw=TRUE, nboots = 0, seed = 16)</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># estim$e</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Expand binned data into a raw vector</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>z_vector <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">vec =</span> <span class="fu">list</span>(<span class="fu">rep</span>(income_bin, n))) <span class="sc">%&gt;%</span></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(vec) <span class="sc">%&gt;%</span></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unlist</span>()</span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Estimate bunching</span></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>estim <span class="ot">&lt;-</span> <span class="fu">bunch</span>(</span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">earnings =</span> z_vector,</span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">zstar =</span> <span class="dv">365000</span>,</span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">binw =</span> <span class="dv">2500</span>,</span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">t1 =</span> <span class="fl">0.07</span>,</span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">t2 =</span> <span class="fl">0.21</span>,</span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">cf_start =</span> <span class="dv">10</span>,</span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">cf_end =</span> <span class="dv">10</span>,</span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">exclude_before =</span> <span class="dv">3</span>,</span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">exclude_after =</span> <span class="dv">2</span>,</span>
-<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># poly_size = 2,</span></span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">draw =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">nboots =</span> <span class="dv">100</span></span>
-<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bunchr)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># # analyzing a kink</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ability_vec &lt;- 4000 * rbeta(100000, 2, 5)</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># earning_vec &lt;- sapply(ability_vec, earning_fun, 0.2, 0, 0.2, 0, 1000)</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># earning_vec</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># # bunch_viewer(earning_vec, 1000, 20, 20, 1, 1, binw = 20)</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># estim &lt;- bunch(earning_vec, 1000, 0, 0.2, Tax = 0, 20, 20, 1, 1,</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># binw = 20, draw=TRUE, nboots = 0, seed = 16)</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># estim$e</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Expand binned data into a raw vector</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>z_vector <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">vec =</span> <span class="fu">list</span>(<span class="fu">rep</span>(income_bin, n))) <span class="sc">%&gt;%</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(vec) <span class="sc">%&gt;%</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unlist</span>()</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Estimate bunching</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>estim <span class="ot">&lt;-</span> <span class="fu">bunch</span>(</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">earnings =</span> z_vector,</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">zstar =</span> <span class="dv">365000</span>,</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">binw =</span> <span class="dv">2500</span>,</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">t1 =</span> <span class="fl">0.07</span>,</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">t2 =</span> <span class="fl">0.21</span>,</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">cf_start =</span> <span class="dv">15</span>,</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">cf_end =</span> <span class="dv">13</span>,</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">exclude_before =</span> <span class="dv">9</span>,</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">exclude_after =</span> <span class="dv">4</span>,</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># poly_size = 2,</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">draw =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">nboots =</span> <span class="dv">100</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -396,18 +378,16 @@ window.Quarto = {
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate of the elasticity from the package</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>estim<span class="sc">$</span>e</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate of the elasticity from the package</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>estim<span class="sc">$</span>e</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.077713</code></pre>
+<pre><code>[1] 0.1055593</code></pre>
 </div>
 </div>
 </section>
 <section id="d." class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="d."><span class="header-section-number">1.4</span> d.</h2>
-<ul>
-<li>Different: (1) setting the bunching width, (2) excluding bins, (3) polynomial order.</li>
-</ul>
+<p>The elasticity in (b) does not match the one in (c). It may be due to several reasons. First, in (b) I set <span class="math inline">\(\delta=4\)</span> which is different from (c) and I also set asymmetric bandwidth in <code>bunchr</code> package. Due to these different settings, the results would be different from each other. While both results are bit different from the working paper by <span class="citation" data-cites="anagol">Anagol et al. (<a href="#ref-anagol" role="doc-biblioref">2024</a>)</span>, the result I got from (c) seems to be more close to the working paper. This is likely because, like <span class="citation" data-cites="chetty">Chetty et al. (<a href="#ref-chetty" role="doc-biblioref">2011</a>)</span>, <span class="citation" data-cites="anagol">Anagol et al. (<a href="#ref-anagol" role="doc-biblioref">2024</a>)</span> proposes a method for estimating <span class="math inline">\(B\)</span> using the observed density, without requiring full knowledge of the counterfactual densities. However, <span class="citation" data-cites="anagol">Anagol et al. (<a href="#ref-anagol" role="doc-biblioref">2024</a>)</span>’s approach differs somewhat from that of <span class="citation" data-cites="chetty">Chetty et al. (<a href="#ref-chetty" role="doc-biblioref">2011</a>)</span> and other related work. While <span class="citation" data-cites="chetty">Chetty et al. (<a href="#ref-chetty" role="doc-biblioref">2011</a>)</span> estimates <span class="math inline">\(B\)</span> by integrating over the observed density relative to a counterfactual density estimated via polynomial fitting, <span class="citation" data-cites="anagol">Anagol et al. (<a href="#ref-anagol" role="doc-biblioref">2024</a>)</span> takes a more explicit approach to modeling the diffusion process—separately identifying the diffuse bunching expected near a kink from the underlying counterfactual distribution.</p>
 </section>
 </section>
 <section id="part-2" class="level1" data-number="2">
@@ -424,6 +404,12 @@ window.Quarto = {
 <section id="references" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-anagol" class="csl-entry" role="listitem">
+Anagol, Santosh, Allan Davids, Benjamin B Lockwood, and Tarun Ramadorai. 2024. <span>“Diffuse Bunching with Frictions: Theory and Estimation.”</span> Working Paper 32597. Working Paper Series. National Bureau of Economic Research. <a href="https://doi.org/10.3386/w32597">https://doi.org/10.3386/w32597</a>.
+</div>
+<div id="ref-chetty" class="csl-entry" role="listitem">
+Chetty, Raj, John N. Friedman, Tore Olsen, and Luigi Pistaferri. 2011. <span>“Adjustment Costs, Firm Responses, and Micro Vs. Macro Labor Supply Elasticities: Evidence from Danish Tax Records *.”</span> <em>The Quarterly Journal of Economics</em> 126 (2): 749–804. <a href="https://doi.org/10.1093/qje/qjr013">https://doi.org/10.1093/qje/qjr013</a>.
+</div>
 <div id="ref-saez2010" class="csl-entry" role="listitem">
 Saez, Emmanuel. 2010. <span>“Do Taxpayers Bunch at Kink Points?”</span> <em>American Economic Journal: Economic Policy</em> 2 (3): 180–212. <a href="https://doi.org/10.1257/pol.2.3.180">https://doi.org/10.1257/pol.2.3.180</a>.
 </div>
