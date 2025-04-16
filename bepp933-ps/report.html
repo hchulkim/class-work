@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Hyoungchul Kim">
-<meta name="dcterms.date" content="2025-04-14">
+<meta name="dcterms.date" content="2025-04-15">
 
 <title>PS 2</title>
 <style>
@@ -165,7 +165,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 14, 2025</p>
+      <p class="date">April 15, 2025</p>
     </div>
   </div>
   
@@ -363,25 +363,22 @@ window.Quarto = {
 <span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">binw =</span> <span class="dv">2500</span>,</span>
 <span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">t1 =</span> <span class="fl">0.07</span>,</span>
 <span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">t2 =</span> <span class="fl">0.21</span>,</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">cf_start =</span> <span class="dv">15</span>,</span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">cf_end =</span> <span class="dv">13</span>,</span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">exclude_before =</span> <span class="dv">9</span>,</span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">exclude_after =</span> <span class="dv">4</span>,</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">cf_start =</span> <span class="dv">8</span>,</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">cf_end =</span> <span class="dv">10</span>,</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">exclude_before =</span> <span class="dv">4</span>,</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">exclude_after =</span> <span class="dv">3</span>,</span>
 <span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># poly_size = 2,</span></span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">draw =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">draw =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">nboots =</span> <span class="dv">100</span></span>
 <span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="report_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
 </div>
-</div>
+<p><img src="bunching.png" class="img-fluid"></p>
+<p>The elasticity estimate is as follows:</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate of the elasticity from the package</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>estim<span class="sc">$</span>e</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1055593</code></pre>
+<pre><code>[1] 0.1189242</code></pre>
 </div>
 </div>
 </section>
@@ -392,15 +389,9 @@ window.Quarto = {
 </section>
 <section id="part-2" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Part 2</h1>
-<p>There is no straightforward answer to this question. Before we started to consider the dynamic nature of the taxation policy, the consensus was that we should not tax the capital. The reason was similar to our consensus on not wanting to tax the commodity. By Atkinson-? result, we should only be taxing through income as taxing through commodity or capital will further distort the behavior of people.</p>
-<p>But our consensus changes if we move onto a dynamic setting. In fact, some papers have shown that the capital taxation should be positive in the dynamic setting. The intuition for this is because in the dynamic setting people try to save more for the future to account for any possible risk in the future such as negative shock on their ability.Hence it leads to a negative fiscal externality for the government revenue. In order to alleviate this, the government should try to tax the capital. In this case, we could say it should tax the capital to internalize this negative externality.</p>
-<p>However, setting positive capital taxation might not be that important in terms of policy perspective. This is because some papers have shown that while it is true that capital tax is positive in dynamic setting, its actual magnitude seems to be small (close to zero). Thus in real life policy, it might not make much of a difference whether you tax capital (very slightly) or not.</p>
-<p>In the end, I think we can summarize it as follows:</p>
-<ol type="1">
-<li><p>In static model, it was not recommended to tax the capital.</p></li>
-<li><p>In dynamic setup, the results from static case changed and the optiaml capital taxation should be positive.</p></li>
-<li><p>However, even accounting for this the real life optimal tax for the capital should be near zero.</p></li>
-</ol>
+<p>There is no straightforward answer to this question. Before we started to consider the dynamic nature of the taxation policy, the consensus was that we should not tax the capital. The reason was similar to our consensus on not wanting to tax the commodity. This is due to two main classical answers to this question. First, Chamley-Judd results told us that we should not tax capital in the long run.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Secondly, Atkinson-Stiglitz results told us that we should only be taxing through income as taxing through commodity or capital will further distort the behavior of people.</p>
+<p>But our consensus could change if we move onto a dynamic setting. In fact, some papers have shown that the capital taxation should be positive in the dynamic setting. For example, savings (capital) wedge generally becomes positive in dynamic mechanism design solution for mirlees problem. The intuition for this is because in the dynamic setting people try to save more for the future to account for any possible risk in the future such as negative shock on their ability.Hence it leads to a negative fiscal externality for the government revenue. In order to alleviate this, the government should try to tax the capital. In this case, we could say it should tax the capital to offset the externality. However, setting positive capital taxation might not be that important in terms of policy perspective. This is because some papers (e.g.&nbsp;Farhi and Werning 2013) have shown that while it is true that capital tax is positive in dynamic setting, its actual magnitude seems to be small (close to zero). Thus in real life policy, it might not make much of a difference whether you tax capital (very slightly) or not.</p>
+<p>Furthermore, there are some other methodological approaches to think about optimal capital taxation. For instance, there are some papers such as dynamic Ramsey setup where they impose certain parametric form for the tax function. In this case, optimal tax can be positive depending on the tax policy instrument restrictions. Also, capital taxation can be positive in sufficient statistics approach. Still, whether capital taxation has to be indeed positive will again depend on certain conditions that have no definitive answer.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <section id="references" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
@@ -417,7 +408,14 @@ Saez, Emmanuel. 2010. <span>“Do Taxpayers Bunch at Kink Points?”</span> <em>
 </section>
 </section>
 
-</main>
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>But note that Chamley-Judd results were recently overturned in Straub and Werning (AER, 2020) so we should be cautious about their results.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>For example, we would need to consider whether capital taxation is just a workaround for some other features of dynamic constrained optimum for dynamic Ramsey. For sufficient statistics case, we would need to have a structural model for full calibration.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

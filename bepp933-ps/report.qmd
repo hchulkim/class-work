@@ -199,15 +199,21 @@ estim <- bunch(
   binw = 2500,
   t1 = 0.07,
   t2 = 0.21,
-  cf_start = 15,
-  cf_end = 13,
-  exclude_before = 9,
-  exclude_after = 4,
+  cf_start = 8,
+  cf_end = 10,
+  exclude_before = 4,
+  exclude_after = 3,
   # poly_size = 2,
-  draw = TRUE,
+  draw = FALSE,
   nboots = 100
 )
+```
 
+![](bunching.png)
+
+The elasticity estimate is as follows:
+
+```{r}
 # Estimate of the elasticity from the package
 estim$e
 ```
@@ -218,19 +224,15 @@ The elasticity in (b) does not match the one in (c). It may be due to several re
 
 # Part 2
 
-There is no straightforward answer to this question. Before we started to consider the dynamic nature of the taxation policy, the consensus was that we should not tax the capital. The reason was similar to our consensus on not wanting to tax the commodity. By Atkinson-? result, we should only be taxing through income as taxing through commodity or capital will further distort the behavior of people. 
+There is no straightforward answer to this question. Before we started to consider the dynamic nature of the taxation policy, the consensus was that we should not tax the capital. The reason was similar to our consensus on not wanting to tax the commodity. This is due to two main classical answers to this question. First, Chamley-Judd results told us that we should not tax capital in the long run.[^1] Secondly, Atkinson-Stiglitz results told us that we should only be taxing through income as taxing through commodity or capital will further distort the behavior of people. 
 
-But our consensus changes if we move onto a dynamic setting. In fact, some papers have shown that the capital taxation should be positive in the dynamic setting. The intuition for this is because in the dynamic setting people try to save more for the future to account for any possible risk in the future such as negative shock on their ability.Hence it leads to a negative fiscal externality for the government revenue. In order to alleviate this, the government should try to tax the capital. In this case, we could say it should tax the capital to internalize this negative externality. 
+[^1]: But note that Chamley-Judd results were recently overturned in Straub and Werning (AER, 2020) so we should be cautious about their results.
 
-However, setting positive capital taxation might not be that important in terms of policy perspective. This is because some papers have shown that while it is true that capital tax is positive in dynamic setting, its actual magnitude seems to be small (close to zero). Thus in real life policy, it might not make much of a difference whether you tax capital (very slightly) or not.
+But our consensus could change if we move onto a dynamic setting. In fact, some papers have shown that the capital taxation should be positive in the dynamic setting. For example, savings (capital) wedge generally becomes positive in dynamic mechanism design solution for mirlees problem. The intuition for this is because in the dynamic setting people try to save more for the future to account for any possible risk in the future such as negative shock on their ability.Hence it leads to a negative fiscal externality for the government revenue. In order to alleviate this, the government should try to tax the capital. In this case, we could say it should tax the capital to offset the externality. However, setting positive capital taxation might not be that important in terms of policy perspective. This is because some papers (e.g. Farhi and Werning 2013) have shown that while it is true that capital tax is positive in dynamic setting, its actual magnitude seems to be small (close to zero). Thus in real life policy, it might not make much of a difference whether you tax capital (very slightly) or not.
 
-In the end, I think we can summarize it as follows: 
+Furthermore, there are some other methodological approaches to think about optimal capital taxation. For instance, there are some papers such as dynamic Ramsey setup where they impose certain parametric form for the tax function. In this case, optimal tax can be positive depending on the tax policy instrument restrictions. Also, capital taxation can be positive in sufficient statistics approach. Still, whether capital taxation has to be indeed positive will again depend on certain conditions that have no definitive answer.[^2]
 
-1. In static model, it was not recommended to tax the capital.
-
-2. In dynamic setup, the results from static case changed and the optiaml capital taxation should be positive.
-
-3. However, even accounting for this the real life optimal tax for the capital should be near zero.
+[^2]: For example, we would need to consider whether capital taxation is just a workaround for some other features of dynamic constrained optimum for dynamic Ramsey. For sufficient statistics case, we would need to have a structural model for full calibration.
 
 ## References {.unnumbered}
 
