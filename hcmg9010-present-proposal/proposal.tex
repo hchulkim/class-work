@@ -1,0 +1,102 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\title{Immigration and Armed Conflict in the Era of Globalization}
+\author{Hyoungchul Kim\\Wharton, University of Pennsylvania}
+\date{April 2025}
+
+\begin{document}
+
+\maketitle
+\onehalfspacing
+
+\section*{Introduction and Motivation}
+
+The relationship between immigration and conflict is a complex and increasingly relevant topic in the modern globalized world. As international migration grows in both volume and scope, understanding whether and how immigration impacts the likelihood or intensity of armed conflicts becomes crucial—not just for scholars, but also for policymakers grappling with migration and security policies.
+
+At first glance, it is unclear whether immigration exacerbates or mitigates conflict. On one hand, increased immigration might inflame tensions among native populations, possibly due to perceived threats to cultural identity or economic competition. Additionally, immigrants could import existing grievances from their countries of origin, particularly if they are involved in ongoing or unresolved conflicts. On the other hand, a higher share of immigrants in a population could increase the opportunity cost of violent conflict, thereby promoting peace. This may apply both within a country (by raising the social or economic stakes of disruption) and across countries (by creating economic or familial ties that make war more costly).
+
+This proposal seeks to explore both the direct and indirect effects of immigration on armed conflict across countries, distinguishing between interstate and intrastate conflict types. The goal is to produce causal evidence on whether higher immigration shares lead to more—or less—conflict, and to understand the mechanisms at play.
+
+\section*{Research Questions}
+
+\begin{itemize}
+    \item \textbf{Main Question}: Does immigration increase or decrease the likelihood of armed conflict?
+    \item \textbf{Sub-questions}:
+    \begin{itemize}
+        \item Are the effects different for interstate versus intrastate conflicts?
+        \item What are the channels through which immigration affects conflict—economic integration, social cohesion, transmission of grievances?
+        \item Do the effects vary by the origin or composition of the immigrant population?
+    \end{itemize}
+\end{itemize}
+
+\section*{Data}
+
+To answer these questions, I use a newly compiled dataset merging multiple international sources:
+
+\begin{itemize}
+    \item \textbf{Immigration Data}:
+    \begin{itemize}
+        \item UN Global Migration Database (1990–2024, in 5-year intervals): Detailed bilateral migration stocks.
+        \item World Bank historical migration data (1960–2000, decennial): Used for constructing the ``share'' component of the instrument.
+    \end{itemize}
+    \item \textbf{Conflict Data}:
+    \begin{itemize}
+        \item UCDP/PRIO Armed Conflict Dataset (1946–2022): Annual conflict data (minimum 25 battle deaths), including interstate and intrastate conflicts.
+    \end{itemize}
+    \item \textbf{Control Variables}:
+    \begin{itemize}
+        \item CEPII: GDP, trade volume, and WTO/GATT membership.
+    \end{itemize}
+\end{itemize}
+
+The panel includes country-level observations for the years 1990–2022.
+
+\section*{Empirical Strategy}
+
+To deal with potential endogeneity of immigration, I adopt a shift-share instrumental variable strategy. The idea is to use historical settlement patterns and global shocks to identify plausibly exogenous variation in current immigration.
+
+\[
+y_{it} = \alpha + \beta D_{it} + \Gamma' X_{it} + \varepsilon_{it}
+\]
+
+where:
+\begin{itemize}
+    \item $y_{it}$ is the cumulative number of conflicts involving country $i$ in the five years following year $t$,
+    \item $D_{it}$ is immigration stock as a share of population,
+    \item $X_{it}$ includes GDP, trade volume, population, and fixed effects.
+\end{itemize}
+
+The shift-share IV is constructed using:
+\[
+\widehat{IMM}_{it} = \sum_j \left( \text{WORLD}_{jt-1} \times \frac{\text{CNTRY}_{ij,1960}}{\text{CNTRY}_{i,1960}} \right)
+\]
+
+\section*{Preliminary Results}
+
+Initial 2SLS estimates suggest a negative relationship between immigration share and intrastate conflict—suggesting that immigration may reduce internal conflict. However, these results are not robust across specifications, and certain instruments display weak identification or measurement inconsistencies. A likely source of noise is the mismatch between the data sources used to construct the instrument (World Bank) and the regressor (UN).
+
+It is worth noting that most conflicts in the dataset are intrastate in nature, which often depend on domestic political, ethnic, and social structures—possibly limiting the role that immigration can play.
+
+\section*{Next Steps and Extensions}
+
+The project remains exploratory. Future directions include:
+
+\begin{itemize}
+    \item Testing alternative IV constructions with stronger first-stage performance.
+    \item Incorporating other datasets such as Correlates of War (1816–2007) for robustness.
+    \item Exploring heterogeneity by region, immigration type, or composition.
+    \item Investigating indirect mechanisms through which immigration might influence foreign policy or external conflict risk.
+\end{itemize}
+
+\section*{Conclusion}
+
+This study aims to causally evaluate the impact of immigration on armed conflict in the modern era. Preliminary findings point to a conflict-dampening effect, particularly on intrastate violence. However, further work is needed to ensure robust identification, validate data sources, and better understand the mechanisms at play. The intersection of migration and conflict remains a promising and policy-relevant area for future research.
+
+\end{document}
+
